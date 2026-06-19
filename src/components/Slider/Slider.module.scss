@@ -1,0 +1,42 @@
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  width: 200px;
+  height: 2rem;
+
+  &__track {
+    background-color: var(--strapi-colors-neutral200);
+    position: relative;
+    flex-grow: 1;
+    border-radius: 2px;
+    height: 1rem;
+  }
+
+  &__range {
+    position: absolute;
+    background-color: var(--strapi-colors-primary600);
+    border-radius: 2px;
+    height: 100%;
+  }
+
+  &__thumb {
+    display: block;
+    width: 1rem;
+    height: 2rem;
+    background-color: var(--strapi-colors-neutral0);
+    border: 1px solid var(--strapi-colors-neutral500);
+    border-radius: 2px;
+
+    &:focus {
+      outline: var(--strapi-colors-primary600) solid 2px;
+      outline-offset: -1px;
+    }
+
+    &:hover {
+      background-color: var(--strapi-colors-neutral100);
+    }
+  }
+}
