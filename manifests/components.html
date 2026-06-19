@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Components Manifest</title>
+  <style>
+      :root {
+          --bg: #0b0c10;
+          --panel: #121318;
+          --muted: #9aa0a6;
+          --fg: #e8eaed;
+          --ok: #22c55e;
+          --info: #1e88e5;
+          --err: #c62828;
+          --ok-bg: #0c1a13;
+          --info-bg: #0c1624;
+          --err-bg: #1a0e0e;
+          --chip: #1f2330;
+          --border: #2b2f3a;
+          --link: #8ab4f8;
+          --active-ring: 1px; /* 1px active ring for pills and toggles */
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      html,
+      body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--fg);
+          font: 14px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          'Helvetica Neue',
+          Arial,
+          'Noto Sans';
+      }
+
+      .wrap {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 16px 20px;
+      }
+
+      header {
+          position: sticky;
+          top: 0;
+          backdrop-filter: blur(6px);
+          background: color-mix(in srgb, var(--bg) 84%, transparent);
+          border-bottom: 1px solid var(--border);
+          z-index: 10;
+      }
+
+      h1 {
+          font-size: 20px;
+          margin: 0 0 6px;
+      }
+
+      .summary {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          align-items: center;
+      }
+
+      /* Top filter pills */
+      .filter-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          background: var(--panel);
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+          color: var(--fg);
+      }
+
+      .filter-pill.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: color-mix(in srgb, var(--ok) 18%, #000);
+      }
+
+      .filter-pill.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+      }
+
+      .filter-pill.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+      }
+
+      .filter-pill.all {
+          color: #d7dbe0;
+          border-color: var(--border);
+          background: var(--panel);
+      }
+
+      .filter-pill[aria-disabled='true'] {
+          cursor: default;
+          text-decoration: none;
+      }
+
+      .filter-pill:focus,
+      .filter-pill:active {
+          outline: none;
+          box-shadow: none;
+      }
+
+      /* Selected top pill ring via :target */
+      #filter-all:target ~ header .filter-pill[data-k='all'],
+      #filter-errors:target ~ header .filter-pill[data-k='errors'],
+      #filter-infos:target ~ header .filter-pill[data-k='infos'],
+      #filter-story-errors:target ~ header .filter-pill[data-k='story-errors'],
+      #filter-doc-errors:target ~ header .filter-pill[data-k='docs'],
+      #filter-docs:target ~ header .filter-pill[data-k='docs'] {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Hidden targets for filtering */
+      #filter-all,
+      #filter-errors,
+      #filter-infos,
+      #filter-story-errors,
+      #filter-doc-errors,
+      #filter-docs {
+          display: none;
+      }
+
+      main {
+          padding: 36px 0 40px;
+      }
+
+      .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+      }
+
+      /* one card per row */
+
+      .card {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+      }
+
+      .head {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+      }
+
+      .title h2 {
+          font-size: 16px;
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .meta {
+          font-size: 12px;
+          color: var(--muted);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .kv {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+      }
+
+      .chip {
+          font-size: 12px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: var(--chip);
+          border: 1px solid var(--border);
+      }
+
+      .hint {
+          color: var(--muted);
+          font-size: 12px;
+      }
+
+      .badges {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      /* Per-card badges: labels become toggles when clickable */
+      .badge {
+          font-size: 12px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--border);
+          background: var(--chip);
+          color: #d7dbe0;
+      }
+
+      .badge.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+      }
+
+      .badge.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+      }
+
+      .badge.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .as-toggle {
+          cursor: pointer;
+      }
+
+      /* 1px ring on active toggle */
+      .tg-err:checked + label.as-toggle,
+      .tg-info:checked + label.as-toggle,
+      .tg-stories:checked + label.as-toggle,
+      .tg-docs:checked + label.as-toggle,
+      .tg-subcomponents:checked + label.as-toggle,
+      .tg-content:checked + label.as-toggle,
+      .tg-props:checked + label.as-toggle {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Panels: hidden by default, shown when respective toggle checked */
+      .panels {
+          display: grid;
+          gap: 10px;
+      }
+
+      .panel {
+          display: none;
+      }
+
+      .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+
+      .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-props:checked ~ .panels .panel-props {
+          display: grid;
+      }
+
+      /* Colored notes for prop type error + info */
+      .note {
+          padding: 12px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+      }
+
+      .note.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+          color: #ffd1d4;
+      }
+
+      .note.info {
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+          color: #d6e8ff;
+      }
+
+      .note.ok {
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: var(--ok-bg);
+          color: var(--fg);
+      }
+
+      .note-title {
+          font-weight: 600;
+          margin-bottom: 6px;
+      }
+
+      .note-body {
+          white-space: normal;
+      }
+
+      /* Story error cards */
+      .ex {
+          padding: 10px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          background: #0f131b;
+      }
+
+      .ex.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          display: inline-block;
+      }
+
+      .dot-ok {
+          background: var(--ok);
+      }
+
+      .dot-err {
+          background: var(--err);
+      }
+
+      .ex-name {
+          font-weight: 600;
+      }
+
+      /* Error groups (visible in errors filter) */
+      .error-groups {
+          display: none;
+          margin-bottom: 16px;
+      }
+
+      .group {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          overflow: hidden;
+      }
+
+      .group + .group {
+          margin-top: 12px;
+      }
+
+      .group-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 14px;
+          cursor: pointer;
+          border-bottom: 1px solid var(--border);
+      }
+
+      .group-header:hover {
+          background: #141722;
+      }
+
+      .group-title {
+          font-weight: 600;
+          flex: 1;
+      }
+
+      .group-count {
+          font-size: 12px;
+          color: var(--muted);
+      }
+
+      .group-cards {
+          display: none;
+          padding: 12px;
+      }
+
+      .group .card {
+          margin: 12px 0;
+      }
+
+      .group .card:first-child {
+          margin-top: 0;
+      }
+
+      .group .card:last-child {
+          margin-bottom: 0;
+      }
+
+      /* caret rotation */
+      .group-tg:checked + label .caret {
+          transform: rotate(90deg);
+      }
+
+      .caret {
+          transition: transform 0.15s ease;
+      }
+
+      /* toggle body */
+      .group-tg:checked ~ .group-cards {
+          display: block;
+      }
+
+      /* CSS-only filtering of cards via top pills */
+      #filter-errors:target ~ main .card:not(.has-error):not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-infos:target ~ main .card:not(.has-info) {
+          display: none;
+      }
+
+      #filter-story-errors:target ~ main .card:not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-doc-errors:target ~ main .card:not(.has-doc-error) {
+          display: none;
+      }
+
+      #filter-docs:target ~ main .card:has(> .tg-docs),
+      #filter-docs:target ~ main .card.is-doc {
+          display: block;
+      }
+
+      #filter-docs:target ~ main .card:not(:has(> .tg-docs)):not(.is-doc) {
+          display: none;
+      }
+
+      #filter-all:target ~ main .card {
+          display: block;
+      }
+
+      /* In errors view, hide standalone component-error cards in the regular grid (they will appear in groups) */
+      #filter-errors:target ~ main .grid .card.has-error {
+          display: none;
+      }
+
+      /* Show grouped section only in errors view */
+      #filter-errors:target ~ main .error-groups {
+          display: block;
+      }
+
+      /* Section titles */
+      .section-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--muted);
+          margin: 24px 0 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid var(--border);
+      }
+      .section-title:first-child {
+          margin-top: 0;
+      }
+
+      /* When a toggle is checked, show the corresponding panel */
+      .card > .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+      
+      .card > .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+      }
+      
+      .card > .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+      }
+
+      .card > .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+      }
+
+      .card > .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+      }
+
+      .card > .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+      }
+
+      /* Add vertical spacing around panels only when any panel is visible */
+      .card > .tg-err:checked ~ .panels,
+      .card > .tg-info:checked ~ .panels,
+      .card > .tg-stories:checked ~ .panels,
+      .card > .tg-docs:checked ~ .panels,
+      .card > .tg-subcomponents:checked ~ .panels,
+      .card > .tg-content:checked ~ .panels,
+      .card > .tg-props:checked ~ .panels {
+          margin: 10px 0;
+      }
+
+      /* Optional: a subtle 1px ring on the active badge, using :has() if available */
+      @supports selector(.card:has(.tg-err:checked)) {
+          .card:has(.tg-err:checked) label[for$='-err'],
+          .card:has(.tg-info:checked) label[for$='-info'],
+          .card:has(.tg-stories:checked) label[for$='-stories'],
+          .card:has(.tg-docs:checked) label[for$='-docs'],
+          .card:has(.tg-subcomponents:checked) label[for$='-subcomponents'],
+          .card:has(.tg-content:checked) label[for$='-content'],
+          .card:has(.tg-props:checked) label[for$='-props'] {
+              box-shadow: 0 0 0 1px currentColor;
+              border-color: currentColor;
+          }
+      }
+
+      /* Wrap long lines in code blocks at ~120 characters */
+      pre, code {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+      pre {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          overflow-x: auto; /* fallback for extremely long tokens */
+          margin: 8px 0 0;
+      }
+      pre > code {
+          display: block;
+          white-space: inherit;
+          overflow-wrap: inherit;
+          word-break: inherit;
+          inline-size: min(100%, 120ch);
+      }
+
+      /* MDX content container for docs */
+      .mdx-content {
+          background: #0f131b;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-top: 8px;
+      }
+  </style>
+</head>
+<body>
+<!-- Hidden targets for the top-level filters -->
+<span id="filter-all"></span>
+<span id="filter-errors"></span>
+<span id="filter-infos"></span>
+<span id="filter-story-errors"></span>
+<span id="filter-doc-errors"></span>
+<span id="filter-docs"></span>
+<header>
+  <div class="wrap">
+    <h1>Manifest Debugger</h1>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/2 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">2/2 infos</a><a class="filter-pill err" data-k="story-errors" href="#filter-story-errors">1/5 story errors</a></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="note info" style="margin-bottom: 16px;">
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.1s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <pre><code>typescript: {
+  reactDocgen: 'react-docgen-typescript',
+}</code></pre>
+            Note: <code>react-docgen-typescript</code> can be slower. If performance is acceptable for your project, it generally produces better results.
+            <a href="https://storybook.js.org/docs/api/main-config/main-config-typescript#reactdocgen" target="_blank">Learn more</a>
+          </div>
+    <h2 class="section-title">Components</h2>
+    <div class="grid" role="list">
+      
+<article
+  class="card 
+  has-error 
+  has-info 
+  has-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="DisplayTokensComponent">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> DisplayTokensComponent</h2>
+      <div class="badges">
+        <label for="c-0-hooks-usedesigntokens-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-0-hooks-usedesigntokens-info" class="badge info as-toggle">1 info</label>
+        <label for="c-0-hooks-usedesigntokens-stories" class="badge err as-toggle">1/1 story errors</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/hooks/useDesignTokens/useDesignTokens.stories.tsx">hooks-usedesigntokens · ./src/hooks/useDesignTokens/useDesignTokens.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-0-hooks-usedesigntokens-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-0-hooks-usedesigntokens-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-0-hooks-usedesigntokens-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;DisplayTokensComponent&quot; component.
+  78 | };
+  79 |
+&gt; 80 | const meta: Meta = {
+     | ^
+  81 |   title: &#39;Hooks/useDesignTokens&#39;,
+  82 |   component: DisplayTokensComponent,
+  83 | };
+
+./src/hooks/useDesignTokens/useDesignTokens.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import { useDesignTokens } from &#39;../../hooks&#39;;
+import { Typography, Button } from &#39;@strapi/design-system&#39;;
+import { useState } from &#39;react&#39;;
+
+const CodePreview = ({ code }: { code: string }) =&gt; {
+  const [show, setShow] = useState(false);
+  return (
+    &lt;div style={{ marginTop: &#39;1.5rem&#39;, borderTop: &#39;1px solid #eee&#39;, paddingTop: &#39;1rem&#39; }}&gt;
+      &lt;Button variant=&quot;tertiary&quot; onClick={() =&gt; setShow(!show)}&gt;
+        {show ? &#39;Hide Code&#39; : &#39;Show Code&#39;}
+      &lt;/Button&gt;
+      {show &amp;&amp; (
+        &lt;pre style={{
+          marginTop: &#39;1rem&#39;,
+          padding: &#39;1rem&#39;,
+          background: &#39;#f6f8fa&#39;,
+          borderRadius: &#39;6px&#39;,
+          overflowX: &#39;auto&#39;,
+          fontSize: &#39;13px&#39;,
+          fontFamily: &#39;monospace&#39;,
+          border: &#39;1px solid #e1e4e8&#39;
+        }}&gt;
+          &lt;code&gt;{code}&lt;/code&gt;
+        &lt;/pre&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+const DisplayTokensComponent = () =&gt; {
+  const tokens = useDesignTokens();
+
+  if (!tokens || !tokens.theme) {
+    return &lt;Typography&gt;Loading design system context styled-theme...&lt;/Typography&gt;;
+  }
+
+  // Cast token return values safely to satisfy the union types resolved by typescript
+  const dangerousColorOutput = String(tokens.color(&#39;danger500&#39;));
+  const successColorOutput = String(tokens.color(&#39;success600&#39;));
+  const spaceFourOutput = String(tokens.space(&#39;4&#39; as any));
+
+  const code = `import { useDesignTokens } from &#39;strapi-design-extended&#39;;\nimport { Typography } from &#39;@strapi/design-system&#39;;\n\nfunction CustomComponent() {\n  const tokens = useDesignTokens();\n  \n  return (\n    &lt;div style={{ \n      backgroundColor: tokens.color(&#39;danger500&#39;), \n      padding: tokens.space(&#39;4&#39;) \n    }}&gt;\n      &lt;Typography textColor=&quot;neutral0&quot;&gt;Styled content&lt;/Typography&gt;\n    &lt;/div&gt;\n  );\n}`;
+
+  return (
+    &lt;div style={{ padding: &#39;1rem&#39;, display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+      &lt;Typography variant=&quot;beta&quot;&gt;useDesignTokens API&lt;/Typography&gt;
+      &lt;Typography variant=&quot;pi&quot;&gt;
+        This renders styled-components tokens retrieved dynamically, while simultaneously registering high-performance
+        CSS custom property variables on `document.head` (e.g. `--strapi-colors-neutral0`).
+      &lt;/Typography&gt;
+
+      &lt;div style={{ display: &#39;grid&#39;, gridTemplateColumns: &#39;1fr 1fr&#39;, gap: &#39;1rem&#39; }}&gt;
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Sample Color Getter&lt;/Typography&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div
+              style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: dangerousColorOutput, borderRadius: &#39;50%&#39; }}
+            /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;danger500&amp;apos;): {dangerousColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: successColorOutput, borderRadius: &#39;50%&#39; }} /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;success600&amp;apos;): {successColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Spacing and Borders&lt;/Typography&gt;
+          &lt;div&gt;
+            &lt;Typography style={{ marginTop: &#39;0.5rem&#39; }}&gt;tokens.space(4): {spaceFourOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;CodePreview code={code} /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const meta: Meta = {
+  title: &#39;Hooks/useDesignTokens&#39;,
+  component: DisplayTokensComponent,
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+            <div class="note err">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge err">story error</span>
+              </div>
+              
+              
+              
+              <pre><code>Could not generate snippet without component name.</code></pre>
+            </div>
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";</code></pre>
+              </div>
+          
+          
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="SegmentedControl.Root">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> SegmentedControl.Root</h2>
+      <div class="badges">
+        <label for="c-1-components-segmentedcontrol-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-1-components-segmentedcontrol-info" class="badge info as-toggle">1 info</label>
+        <label for="c-1-components-segmentedcontrol-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/SegmentedControl/SegmentedControl.stories.tsx">components-segmentedcontrol · ./src/components/SegmentedControl/SegmentedControl.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-1-components-segmentedcontrol-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-1-components-segmentedcontrol-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-1-components-segmentedcontrol-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: /home/andrew/strapi/strapi-design-extended/src/components/SegmentedControl/SegmentedControl.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { Children, isValidElement, useEffect, useMemo, useState } from &#39;react&#39;;
+import { ToggleGroup } from &#39;radix-ui&#39;;
+
+// Components
+import { Typography } from &#39;@strapi/design-system&#39;;
+
+// Hooks
+import { useDesignTokens } from &#39;../../hooks&#39;;
+
+// Styles
+import styles from &#39;./SegmentedControl.module.scss&#39;;
+import { classCurried } from &#39;../../utils/styles&#39;;
+
+const cn = classCurried(styles);
+
+type SegmentedControlRootProps = {
+  className?: HTMLElement[&#39;className&#39;];
+  children?: React.ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) =&gt; void;
+  style?: React.CSSProperties;
+};
+const Root = ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) =&gt; {
+  useDesignTokens();
+
+  const firstValue = useMemo(() =&gt; {
+    return Children.toArray(children)
+      .map((child) =&gt; (isValidElement&lt;{ value?: string }&gt;(child) ? child.props.value : undefined))
+      .find((val) =&gt; typeof val === &#39;string&#39;);
+  }, [children]);
+
+  const [localValue, setLocalValue] = useState&lt;string&gt;(() =&gt; {
+    if (defaultValue !== undefined) return defaultValue;
+    return firstValue ?? &#39;&#39;;
+  });
+
+  useEffect(() =&gt; {
+    if (valueProp === undefined &amp;&amp; defaultValue === undefined &amp;&amp; !localValue &amp;&amp; firstValue) {
+      setLocalValue(firstValue);
+    }
+  }, [firstValue, valueProp, defaultValue, localValue]);
+
+  const value = valueProp !== undefined ? valueProp : localValue;
+
+  const handleValueChange = (newValue: string) =&gt; {
+    if (newValue) {
+      if (valueProp === undefined) {
+        setLocalValue(newValue);
+      }
+      onChange?.(newValue);
+    }
+  };
+
+  return (
+    &lt;ToggleGroup.Root
+      value={value}
+      className={cn(&#39;segmented-control&#39;) + (className ? ` ${className}` : &#39;&#39;)}
+      style={style}
+      type=&quot;single&quot;
+      onValueChange={handleValueChange}
+    &gt;
+      {children}
+    &lt;/ToggleGroup.Root&gt;
+  );
+};
+
+type SegmentedControlItemProps = {
+  className?: HTMLElement[&#39;className&#39;];
+  value: string;
+  children: string;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+};
+const Item = ({ className, value, children, style, disabled }: SegmentedControlItemProps) =&gt; {
+  return (
+    &lt;ToggleGroup.Item
+      disabled={disabled}
+      className={cn(&#39;segmented-control__item&#39;) + (className ? ` ${className}` : &#39;&#39;)}
+      value={value}
+      style={style}
+    &gt;
+      &lt;Typography
+        variant=&quot;pi&quot;
+        fontWeight=&quot;bold&quot;
+        textTransform=&quot;uppercase&quot;
+        textColor={disabled ? &#39;neutral400&#39; : &#39;neutral600&#39;}
+      &gt;
+        {children}
+      &lt;/Typography&gt;
+    &lt;/ToggleGroup.Item&gt;
+  );
+};
+
+export default { Root, Item };
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";
+import { SegmentedControl } from "strapi-design-extended";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controlled = () =&gt; {
+    const [value, setValue] = useState(&#39;2&#39;);
+    const code = `import { useState } from &#39;react&#39;;\nimport { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\nfunction ControlledExample() {\n  const [value, setValue] = useState(&#39;2&#39;);\n  return (\n    &lt;SegmentedControl.Root value={value} onChange={setValue} style={{ maxWidth: &#39;550px&#39; }}&gt;\n      &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;\n      &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;\n      &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;\n    &lt;/SegmentedControl.Root&gt;\n    &lt;div&gt;Selected value: {value}&lt;/div&gt;\n  );\n}`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;SegmentedControl.Root
+                value={value}
+                onChange={(val) =&gt; {
+                  setValue(val);
+                  args.onChange?.(val);
+                }}
+                style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;div&gt;Selected value: {value}&lt;/div&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabled = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Auto Selects First</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AutoSelectsFirst = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n// No &#39;value&#39; or &#39;defaultValue&#39; provided\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;second&quot;&gt;Second Item&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in this case, “first”).
+                        &lt;/Typography&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;second&quot;&gt;Second Item&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+    </div>
+    <div class="error-groups" role="region" aria-label="Prop type error groups">
+        <section class="group">
+          <input id="no-component-import-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-import-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component import found</span>
+            <span class="group-count">1</span>
+          </label>
+          <div class="group-cards">
+<article
+  class="card 
+  has-error 
+  has-info 
+  has-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="DisplayTokensComponent">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> DisplayTokensComponent</h2>
+      <div class="badges">
+        <label for="c-error-0-hooks-usedesigntokens-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-0-hooks-usedesigntokens-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-hooks-usedesigntokens-stories" class="badge err as-toggle">1/1 story errors</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/hooks/useDesignTokens/useDesignTokens.stories.tsx">hooks-usedesigntokens · ./src/hooks/useDesignTokens/useDesignTokens.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-hooks-usedesigntokens-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-hooks-usedesigntokens-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-hooks-usedesigntokens-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;DisplayTokensComponent&quot; component.
+  78 | };
+  79 |
+&gt; 80 | const meta: Meta = {
+     | ^
+  81 |   title: &#39;Hooks/useDesignTokens&#39;,
+  82 |   component: DisplayTokensComponent,
+  83 | };
+
+./src/hooks/useDesignTokens/useDesignTokens.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import { useDesignTokens } from &#39;../../hooks&#39;;
+import { Typography, Button } from &#39;@strapi/design-system&#39;;
+import { useState } from &#39;react&#39;;
+
+const CodePreview = ({ code }: { code: string }) =&gt; {
+  const [show, setShow] = useState(false);
+  return (
+    &lt;div style={{ marginTop: &#39;1.5rem&#39;, borderTop: &#39;1px solid #eee&#39;, paddingTop: &#39;1rem&#39; }}&gt;
+      &lt;Button variant=&quot;tertiary&quot; onClick={() =&gt; setShow(!show)}&gt;
+        {show ? &#39;Hide Code&#39; : &#39;Show Code&#39;}
+      &lt;/Button&gt;
+      {show &amp;&amp; (
+        &lt;pre style={{
+          marginTop: &#39;1rem&#39;,
+          padding: &#39;1rem&#39;,
+          background: &#39;#f6f8fa&#39;,
+          borderRadius: &#39;6px&#39;,
+          overflowX: &#39;auto&#39;,
+          fontSize: &#39;13px&#39;,
+          fontFamily: &#39;monospace&#39;,
+          border: &#39;1px solid #e1e4e8&#39;
+        }}&gt;
+          &lt;code&gt;{code}&lt;/code&gt;
+        &lt;/pre&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+const DisplayTokensComponent = () =&gt; {
+  const tokens = useDesignTokens();
+
+  if (!tokens || !tokens.theme) {
+    return &lt;Typography&gt;Loading design system context styled-theme...&lt;/Typography&gt;;
+  }
+
+  // Cast token return values safely to satisfy the union types resolved by typescript
+  const dangerousColorOutput = String(tokens.color(&#39;danger500&#39;));
+  const successColorOutput = String(tokens.color(&#39;success600&#39;));
+  const spaceFourOutput = String(tokens.space(&#39;4&#39; as any));
+
+  const code = `import { useDesignTokens } from &#39;strapi-design-extended&#39;;\nimport { Typography } from &#39;@strapi/design-system&#39;;\n\nfunction CustomComponent() {\n  const tokens = useDesignTokens();\n  \n  return (\n    &lt;div style={{ \n      backgroundColor: tokens.color(&#39;danger500&#39;), \n      padding: tokens.space(&#39;4&#39;) \n    }}&gt;\n      &lt;Typography textColor=&quot;neutral0&quot;&gt;Styled content&lt;/Typography&gt;\n    &lt;/div&gt;\n  );\n}`;
+
+  return (
+    &lt;div style={{ padding: &#39;1rem&#39;, display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+      &lt;Typography variant=&quot;beta&quot;&gt;useDesignTokens API&lt;/Typography&gt;
+      &lt;Typography variant=&quot;pi&quot;&gt;
+        This renders styled-components tokens retrieved dynamically, while simultaneously registering high-performance
+        CSS custom property variables on `document.head` (e.g. `--strapi-colors-neutral0`).
+      &lt;/Typography&gt;
+
+      &lt;div style={{ display: &#39;grid&#39;, gridTemplateColumns: &#39;1fr 1fr&#39;, gap: &#39;1rem&#39; }}&gt;
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Sample Color Getter&lt;/Typography&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div
+              style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: dangerousColorOutput, borderRadius: &#39;50%&#39; }}
+            /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;danger500&amp;apos;): {dangerousColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: successColorOutput, borderRadius: &#39;50%&#39; }} /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;success600&amp;apos;): {successColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Spacing and Borders&lt;/Typography&gt;
+          &lt;div&gt;
+            &lt;Typography style={{ marginTop: &#39;0.5rem&#39; }}&gt;tokens.space(4): {spaceFourOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;CodePreview code={code} /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const meta: Meta = {
+  title: &#39;Hooks/useDesignTokens&#39;,
+  component: DisplayTokensComponent,
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+            <div class="note err">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge err">story error</span>
+              </div>
+              
+              
+              
+              <pre><code>Could not generate snippet without component name.</code></pre>
+            </div>
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";</code></pre>
+              </div>
+          
+          
+        </div>
+    
+    
+  </div>
+</article></div>
+        </section>
+      
+        <section class="group">
+          <input id="no-component-definition-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-definition-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component definition found</span>
+            <span class="group-count">1</span>
+          </label>
+          <div class="group-cards">
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="SegmentedControl.Root">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> SegmentedControl.Root</h2>
+      <div class="badges">
+        <label for="c-error-0-components-segmentedcontrol-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-0-components-segmentedcontrol-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-components-segmentedcontrol-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/SegmentedControl/SegmentedControl.stories.tsx">components-segmentedcontrol · ./src/components/SegmentedControl/SegmentedControl.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-components-segmentedcontrol-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-components-segmentedcontrol-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-components-segmentedcontrol-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: /home/andrew/strapi/strapi-design-extended/src/components/SegmentedControl/SegmentedControl.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { Children, isValidElement, useEffect, useMemo, useState } from &#39;react&#39;;
+import { ToggleGroup } from &#39;radix-ui&#39;;
+
+// Components
+import { Typography } from &#39;@strapi/design-system&#39;;
+
+// Hooks
+import { useDesignTokens } from &#39;../../hooks&#39;;
+
+// Styles
+import styles from &#39;./SegmentedControl.module.scss&#39;;
+import { classCurried } from &#39;../../utils/styles&#39;;
+
+const cn = classCurried(styles);
+
+type SegmentedControlRootProps = {
+  className?: HTMLElement[&#39;className&#39;];
+  children?: React.ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) =&gt; void;
+  style?: React.CSSProperties;
+};
+const Root = ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) =&gt; {
+  useDesignTokens();
+
+  const firstValue = useMemo(() =&gt; {
+    return Children.toArray(children)
+      .map((child) =&gt; (isValidElement&lt;{ value?: string }&gt;(child) ? child.props.value : undefined))
+      .find((val) =&gt; typeof val === &#39;string&#39;);
+  }, [children]);
+
+  const [localValue, setLocalValue] = useState&lt;string&gt;(() =&gt; {
+    if (defaultValue !== undefined) return defaultValue;
+    return firstValue ?? &#39;&#39;;
+  });
+
+  useEffect(() =&gt; {
+    if (valueProp === undefined &amp;&amp; defaultValue === undefined &amp;&amp; !localValue &amp;&amp; firstValue) {
+      setLocalValue(firstValue);
+    }
+  }, [firstValue, valueProp, defaultValue, localValue]);
+
+  const value = valueProp !== undefined ? valueProp : localValue;
+
+  const handleValueChange = (newValue: string) =&gt; {
+    if (newValue) {
+      if (valueProp === undefined) {
+        setLocalValue(newValue);
+      }
+      onChange?.(newValue);
+    }
+  };
+
+  return (
+    &lt;ToggleGroup.Root
+      value={value}
+      className={cn(&#39;segmented-control&#39;) + (className ? ` ${className}` : &#39;&#39;)}
+      style={style}
+      type=&quot;single&quot;
+      onValueChange={handleValueChange}
+    &gt;
+      {children}
+    &lt;/ToggleGroup.Root&gt;
+  );
+};
+
+type SegmentedControlItemProps = {
+  className?: HTMLElement[&#39;className&#39;];
+  value: string;
+  children: string;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+};
+const Item = ({ className, value, children, style, disabled }: SegmentedControlItemProps) =&gt; {
+  return (
+    &lt;ToggleGroup.Item
+      disabled={disabled}
+      className={cn(&#39;segmented-control__item&#39;) + (className ? ` ${className}` : &#39;&#39;)}
+      value={value}
+      style={style}
+    &gt;
+      &lt;Typography
+        variant=&quot;pi&quot;
+        fontWeight=&quot;bold&quot;
+        textTransform=&quot;uppercase&quot;
+        textColor={disabled ? &#39;neutral400&#39; : &#39;neutral600&#39;}
+      &gt;
+        {children}
+      &lt;/Typography&gt;
+    &lt;/ToggleGroup.Item&gt;
+  );
+};
+
+export default { Root, Item };
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";
+import { SegmentedControl } from "strapi-design-extended";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controlled = () =&gt; {
+    const [value, setValue] = useState(&#39;2&#39;);
+    const code = `import { useState } from &#39;react&#39;;\nimport { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\nfunction ControlledExample() {\n  const [value, setValue] = useState(&#39;2&#39;);\n  return (\n    &lt;SegmentedControl.Root value={value} onChange={setValue} style={{ maxWidth: &#39;550px&#39; }}&gt;\n      &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;\n      &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;\n      &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;\n    &lt;/SegmentedControl.Root&gt;\n    &lt;div&gt;Selected value: {value}&lt;/div&gt;\n  );\n}`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;SegmentedControl.Root
+                value={value}
+                onChange={(val) =&gt; {
+                  setValue(val);
+                  args.onChange?.(val);
+                }}
+                style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Option 1&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;2&quot;&gt;Option 2&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Option 3&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;div&gt;Selected value: {value}&lt;/div&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabled = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Auto Selects First</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AutoSelectsFirst = () =&gt; {
+    const code = `import { SegmentedControl } from &#39;strapi-design-extended&#39;;\n\n// No &#39;value&#39; or &#39;defaultValue&#39; provided\n&lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;\n  &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;\n  &lt;SegmentedControl.Item value=&quot;second&quot;&gt;Second Item&lt;/SegmentedControl.Item&gt;\n&lt;/SegmentedControl.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in this case, “first”).
+                        &lt;/Typography&gt;
+            &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
+                &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item value=&quot;second&quot;&gt;Second Item&lt;/SegmentedControl.Item&gt;
+            &lt;/SegmentedControl.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article></div>
+        </section>
+      </div>
+    
+    
+  </div>
+</main>
+</body>
+</html>  
