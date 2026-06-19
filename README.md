@@ -37,6 +37,29 @@ function MyApp() {
 }
 ```
 
+#### `Slider`
+A slider component based on Radix UI's `Slider` primitive, designed to match the Strapi design tokens and visual style.
+- **Single or Range Selection**: Supports single-value selections or multi-thumb range selections depending on the size of the array passed to `value` or `defaultValue`.
+- **Customizable**: Configurable minimum (`min`), maximum (`max`), and step (`step`) increments.
+- **Design Token Integration**: Integrates with Strapi's design tokens using `useDesignTokens`.
+
+##### Usage Example:
+```tsx
+import { Slider } from 'strapi-design-extended';
+
+function MyApp() {
+  return (
+    <div style={{ width: '500px' }}>
+      {/* Single Value Slider */}
+      <Slider defaultValue={[20]} label="Simple Slider" />
+
+      {/* Range Slider */}
+      <Slider defaultValue={[20, 80]} label="Range Slider" />
+    </div>
+  );
+}
+```
+
 ---
 
 ### 2. Hooks
