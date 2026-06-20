@@ -1,20 +1,16 @@
-type SegmentedControlRootProps = {
-    className?: HTMLElement['className'];
-    children?: React.ReactNode;
-    value?: string;
+import { ToggleGroup } from 'radix-ui';
+import { ComponentProps } from '../../../node_modules/react';
+
+type SegmentedControlRootProps = Omit<ComponentProps<typeof ToggleGroup.Root>, 'type' | 'asChild' | 'onValueChange' | 'onChange'> & {
     defaultValue?: string;
+    value?: string;
     onChange?: (value: string) => void;
-    style?: React.CSSProperties;
 };
-type SegmentedControlItemProps = {
-    className?: HTMLElement['className'];
-    value: string;
-    children: string;
-    style?: React.CSSProperties;
-    disabled?: boolean;
+type SegmentedControlItemProps = Omit<ComponentProps<typeof ToggleGroup.Item>, 'asChild'> & {
+    active?: boolean;
 };
 declare const _default: {
-    Root: ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) => import("react").JSX.Element;
-    Item: ({ className, value, children, style, disabled }: SegmentedControlItemProps) => import("react").JSX.Element;
+    Root: ({ children, value: valueProp, defaultValue, onChange, ...props }: SegmentedControlRootProps) => import("react").JSX.Element;
+    Item: ({ active, children, ...props }: SegmentedControlItemProps) => import("react").JSX.Element;
 };
 export default _default;

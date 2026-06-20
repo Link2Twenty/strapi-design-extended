@@ -825,32 +825,25 @@ Error:
 No suitable component definition found.
 You can debug your component file in this playground: https://react-docgen.dev/playground
 Code:
-import { Children, isValidElement, useEffect, useMemo, useState } from &#39;react&#39;;
+import { Children, isValidElement, ReactElement, useEffect, useMemo, useState, cloneElement } from &#39;react&#39;;
 import { ToggleGroup } from &#39;radix-ui&#39;;
 
 // Components
-import { Typography } from &#39;@strapi/design-system&#39;;
+import { Button, Grid } from &#39;@strapi/design-system&#39;;
 
-// Hooks
-import { useDesignTokens } from &#39;../../hooks&#39;;
+// Types
+import type { ComponentProps } from &#39;react&#39;;
 
-// Styles
-import styles from &#39;./SegmentedControl.module.scss&#39;;
-import { classCurried } from &#39;../../utils/styles&#39;;
-
-const cn = classCurried(styles);
-
-type SegmentedControlRootProps = {
-  className?: HTMLElement[&#39;className&#39;];
-  children?: React.ReactNode;
-  value?: string;
+type SegmentedControlRootProps = Omit&lt;
+  ComponentProps&lt;typeof ToggleGroup.Root&gt;,
+  &#39;type&#39; | &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;onChange&#39;
+&gt; &amp; {
   defaultValue?: string;
+  value?: string;
   onChange?: (value: string) =&gt; void;
-  style?: React.CSSProperties;
 };
-const Root = ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) =&gt; {
-  useDesignTokens();
 
+const Root = ({ children, value: valueProp, defaultValue, onChange, ...props }: SegmentedControlRootProps) =&gt; {
   const firstValue = useMemo(() =&gt; {
     return Children.toArray(children)
       .map((child) =&gt; (isValidElement&lt;{ value?: string }&gt;(child) ? child.props.value : undefined))
@@ -879,42 +872,43 @@ const Root = ({ className, children, value: valueProp, defaultValue, onChange, s
     }
   };
 
+  const clonedChildren = Children.map(children, (child) =&gt; {
+    if (isValidElement(child)) {
+      const childValue = (child.props as any).value;
+      const isActive = value === childValue;
+
+      return cloneElement(child as ReactElement&lt;any&gt;, { active: isActive });
+    }
+    return child;
+  });
+
   return (
-    &lt;ToggleGroup.Root
-      value={value}
-      className={cn(&#39;segmented-control&#39;) + (className ? ` ${className}` : &#39;&#39;)}
-      style={style}
-      type=&quot;single&quot;
-      onValueChange={handleValueChange}
-    &gt;
-      {children}
+    &lt;ToggleGroup.Root asChild type=&quot;single&quot; {...props} onValueChange={handleValueChange} value={value}&gt;
+      &lt;Grid.Root
+        background=&quot;neutral100&quot;
+        borderColor=&quot;neutral200&quot;
+        borderWidth=&quot;1px&quot;
+        gap={1}
+        gridCols={clonedChildren?.length ?? 0}
+        hasRadius
+        padding={1}
+      &gt;
+        {clonedChildren}
+      &lt;/Grid.Root&gt;
     &lt;/ToggleGroup.Root&gt;
   );
 };
 
-type SegmentedControlItemProps = {
-  className?: HTMLElement[&#39;className&#39;];
-  value: string;
-  children: string;
-  style?: React.CSSProperties;
-  disabled?: boolean;
+type SegmentedControlItemProps = Omit&lt;ComponentProps&lt;typeof ToggleGroup.Item&gt;, &#39;asChild&#39;&gt; &amp; {
+  active?: boolean;
 };
-const Item = ({ className, value, children, style, disabled }: SegmentedControlItemProps) =&gt; {
+
+const Item = ({ active, children, ...props }: SegmentedControlItemProps) =&gt; {
   return (
-    &lt;ToggleGroup.Item
-      disabled={disabled}
-      className={cn(&#39;segmented-control__item&#39;) + (className ? ` ${className}` : &#39;&#39;)}
-      value={value}
-      style={style}
-    &gt;
-      &lt;Typography
-        variant=&quot;pi&quot;
-        fontWeight=&quot;bold&quot;
-        textTransform=&quot;uppercase&quot;
-        textColor={disabled ? &#39;neutral400&#39; : &#39;neutral600&#39;}
-      &gt;
+    &lt;ToggleGroup.Item asChild {...props}&gt;
+      &lt;Button variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} style={active ? { pointerEvents: &#39;none&#39; } : undefined}&gt;
         {children}
-      &lt;/Typography&gt;
+      &lt;/Button&gt;
     &lt;/ToggleGroup.Item&gt;
   );
 };
@@ -1287,15 +1281,12 @@ import { Toolbar as ToolbarPrimative } from &#39;radix-ui&#39;;
 // Components
 import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from &#39;@strapi/design-system&#39;;
 
-// Hooks
-import { useDesignTokens } from &#39;../../hooks&#39;;
-
 // Types
 import type { ComponentProps, ReactElement } from &#39;react&#39;;
 
-const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Root&gt;) =&gt; {
-  useDesignTokens();
+type ToolbarRootProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Root&gt;, &#39;asChild&#39;&gt;;
 
+const Root = ({ children, ...props }: ToolbarRootProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Root {...props} asChild&gt;
       &lt;Flex hasRadius background=&quot;neutral100&quot; padding={1} gap={1} borderColor=&quot;neutral200&quot; borderWidth=&quot;1px&quot;&gt;
@@ -1305,14 +1296,11 @@ const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.
   );
 };
 
-const ToggleGroup = ({
-  children,
-  value: valueProp,
-  defaultValue,
-  onValueChange,
-  type,
-  ...props
-}: ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;) =&gt; {
+type ToggleGroupProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;, &#39;asChild&#39; | &#39;onValueChange&#39;&gt; &amp; {
+  onValueChange?: (value: string | string[]) =&gt; void;
+};
+
+const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) =&gt; {
   const isSingle = type === &#39;single&#39;;
 
   const firstValue = useMemo(() =&gt; {
@@ -1378,13 +1366,12 @@ const ToggleGroup = ({
   );
 };
 
-const ToggleItem = ({
-  children,
-  label,
-  active,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
-  ComponentProps&lt;typeof IconButton&gt; &amp; { active?: boolean }) =&gt; {
+type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof IconButton&gt; &amp; {
+    active?: boolean;
+  };
+
+const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
       &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
@@ -1394,7 +1381,9 @@ const ToggleItem = ({
   );
 };
 
-const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;) =&gt; {
+type ToolbarSeparatorProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;, &#39;asChild&#39;&gt;;
+
+const Separator = ({ className, ...props }: ToolbarSeparatorProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Separator {...props} asChild&gt;
       &lt;Box
@@ -1410,10 +1399,10 @@ const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrim
   );
 };
 
-const Link = ({
-  children,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiLink&gt;) =&gt; {
+type ToolbarLinkProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof StrapiLink&gt;;
+
+const Link = ({ children, ...props }: ToolbarLinkProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Link asChild {...props}&gt;
       &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
@@ -1421,11 +1410,10 @@ const Link = ({
   );
 };
 
-const Button = ({
-  className,
-  children,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiButton&gt;) =&gt; {
+type ToolbarButtonProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof StrapiButton&gt;;
+
+const Button = ({ className, children, ...props }: ToolbarButtonProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Button asChild {...props}&gt;
       &lt;StrapiButton&gt;{children}&lt;/StrapiButton&gt;
@@ -1649,32 +1637,25 @@ Error:
 No suitable component definition found.
 You can debug your component file in this playground: https://react-docgen.dev/playground
 Code:
-import { Children, isValidElement, useEffect, useMemo, useState } from &#39;react&#39;;
+import { Children, isValidElement, ReactElement, useEffect, useMemo, useState, cloneElement } from &#39;react&#39;;
 import { ToggleGroup } from &#39;radix-ui&#39;;
 
 // Components
-import { Typography } from &#39;@strapi/design-system&#39;;
+import { Button, Grid } from &#39;@strapi/design-system&#39;;
 
-// Hooks
-import { useDesignTokens } from &#39;../../hooks&#39;;
+// Types
+import type { ComponentProps } from &#39;react&#39;;
 
-// Styles
-import styles from &#39;./SegmentedControl.module.scss&#39;;
-import { classCurried } from &#39;../../utils/styles&#39;;
-
-const cn = classCurried(styles);
-
-type SegmentedControlRootProps = {
-  className?: HTMLElement[&#39;className&#39;];
-  children?: React.ReactNode;
-  value?: string;
+type SegmentedControlRootProps = Omit&lt;
+  ComponentProps&lt;typeof ToggleGroup.Root&gt;,
+  &#39;type&#39; | &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;onChange&#39;
+&gt; &amp; {
   defaultValue?: string;
+  value?: string;
   onChange?: (value: string) =&gt; void;
-  style?: React.CSSProperties;
 };
-const Root = ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) =&gt; {
-  useDesignTokens();
 
+const Root = ({ children, value: valueProp, defaultValue, onChange, ...props }: SegmentedControlRootProps) =&gt; {
   const firstValue = useMemo(() =&gt; {
     return Children.toArray(children)
       .map((child) =&gt; (isValidElement&lt;{ value?: string }&gt;(child) ? child.props.value : undefined))
@@ -1703,42 +1684,43 @@ const Root = ({ className, children, value: valueProp, defaultValue, onChange, s
     }
   };
 
+  const clonedChildren = Children.map(children, (child) =&gt; {
+    if (isValidElement(child)) {
+      const childValue = (child.props as any).value;
+      const isActive = value === childValue;
+
+      return cloneElement(child as ReactElement&lt;any&gt;, { active: isActive });
+    }
+    return child;
+  });
+
   return (
-    &lt;ToggleGroup.Root
-      value={value}
-      className={cn(&#39;segmented-control&#39;) + (className ? ` ${className}` : &#39;&#39;)}
-      style={style}
-      type=&quot;single&quot;
-      onValueChange={handleValueChange}
-    &gt;
-      {children}
+    &lt;ToggleGroup.Root asChild type=&quot;single&quot; {...props} onValueChange={handleValueChange} value={value}&gt;
+      &lt;Grid.Root
+        background=&quot;neutral100&quot;
+        borderColor=&quot;neutral200&quot;
+        borderWidth=&quot;1px&quot;
+        gap={1}
+        gridCols={clonedChildren?.length ?? 0}
+        hasRadius
+        padding={1}
+      &gt;
+        {clonedChildren}
+      &lt;/Grid.Root&gt;
     &lt;/ToggleGroup.Root&gt;
   );
 };
 
-type SegmentedControlItemProps = {
-  className?: HTMLElement[&#39;className&#39;];
-  value: string;
-  children: string;
-  style?: React.CSSProperties;
-  disabled?: boolean;
+type SegmentedControlItemProps = Omit&lt;ComponentProps&lt;typeof ToggleGroup.Item&gt;, &#39;asChild&#39;&gt; &amp; {
+  active?: boolean;
 };
-const Item = ({ className, value, children, style, disabled }: SegmentedControlItemProps) =&gt; {
+
+const Item = ({ active, children, ...props }: SegmentedControlItemProps) =&gt; {
   return (
-    &lt;ToggleGroup.Item
-      disabled={disabled}
-      className={cn(&#39;segmented-control__item&#39;) + (className ? ` ${className}` : &#39;&#39;)}
-      value={value}
-      style={style}
-    &gt;
-      &lt;Typography
-        variant=&quot;pi&quot;
-        fontWeight=&quot;bold&quot;
-        textTransform=&quot;uppercase&quot;
-        textColor={disabled ? &#39;neutral400&#39; : &#39;neutral600&#39;}
-      &gt;
+    &lt;ToggleGroup.Item asChild {...props}&gt;
+      &lt;Button variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} style={active ? { pointerEvents: &#39;none&#39; } : undefined}&gt;
         {children}
-      &lt;/Typography&gt;
+      &lt;/Button&gt;
     &lt;/ToggleGroup.Item&gt;
   );
 };
@@ -1922,15 +1904,12 @@ import { Toolbar as ToolbarPrimative } from &#39;radix-ui&#39;;
 // Components
 import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from &#39;@strapi/design-system&#39;;
 
-// Hooks
-import { useDesignTokens } from &#39;../../hooks&#39;;
-
 // Types
 import type { ComponentProps, ReactElement } from &#39;react&#39;;
 
-const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Root&gt;) =&gt; {
-  useDesignTokens();
+type ToolbarRootProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Root&gt;, &#39;asChild&#39;&gt;;
 
+const Root = ({ children, ...props }: ToolbarRootProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Root {...props} asChild&gt;
       &lt;Flex hasRadius background=&quot;neutral100&quot; padding={1} gap={1} borderColor=&quot;neutral200&quot; borderWidth=&quot;1px&quot;&gt;
@@ -1940,14 +1919,11 @@ const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.
   );
 };
 
-const ToggleGroup = ({
-  children,
-  value: valueProp,
-  defaultValue,
-  onValueChange,
-  type,
-  ...props
-}: ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;) =&gt; {
+type ToggleGroupProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;, &#39;asChild&#39; | &#39;onValueChange&#39;&gt; &amp; {
+  onValueChange?: (value: string | string[]) =&gt; void;
+};
+
+const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) =&gt; {
   const isSingle = type === &#39;single&#39;;
 
   const firstValue = useMemo(() =&gt; {
@@ -2013,13 +1989,12 @@ const ToggleGroup = ({
   );
 };
 
-const ToggleItem = ({
-  children,
-  label,
-  active,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
-  ComponentProps&lt;typeof IconButton&gt; &amp; { active?: boolean }) =&gt; {
+type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof IconButton&gt; &amp; {
+    active?: boolean;
+  };
+
+const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
       &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
@@ -2029,7 +2004,9 @@ const ToggleItem = ({
   );
 };
 
-const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;) =&gt; {
+type ToolbarSeparatorProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;, &#39;asChild&#39;&gt;;
+
+const Separator = ({ className, ...props }: ToolbarSeparatorProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Separator {...props} asChild&gt;
       &lt;Box
@@ -2045,10 +2022,10 @@ const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrim
   );
 };
 
-const Link = ({
-  children,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiLink&gt;) =&gt; {
+type ToolbarLinkProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof StrapiLink&gt;;
+
+const Link = ({ children, ...props }: ToolbarLinkProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Link asChild {...props}&gt;
       &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
@@ -2056,11 +2033,10 @@ const Link = ({
   );
 };
 
-const Button = ({
-  className,
-  children,
-  ...props
-}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiButton&gt;) =&gt; {
+type ToolbarButtonProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof StrapiButton&gt;;
+
+const Button = ({ className, children, ...props }: ToolbarButtonProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Button asChild {...props}&gt;
       &lt;StrapiButton&gt;{children}&lt;/StrapiButton&gt;
