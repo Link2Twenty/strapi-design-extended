@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
 import { DesignSystemProvider, lightTheme, Typography } from '@strapi/design-system';
+import { Bold, Italic, StrikeThrough } from '@strapi/icons';
 
 import useDesignTokens from '../hooks/useDesignTokens';
-import { SegmentedControl, Slider } from '../components';
+import { SegmentedControl, Slider, Toolbar } from '../components';
 
 function App() {
   const [view, setView] = useState('1');
@@ -13,6 +14,46 @@ function App() {
   return (
     <DesignSystemProvider theme={lightTheme} locale="en">
       <DesignToken />
+      <div style={{ display: 'flex', gap: '1rem', margin: '1rem', alignItems: 'center' }}>
+        <Toolbar.Root className="ToolbarRoot" aria-label="Formatting options" style={{ width: '100%' }}>
+          <Toolbar.ToggleGroup type="multiple" aria-label="Text formatting">
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="bold" label="Bold">
+              <Bold />
+            </Toolbar.ToggleItem>
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="italic" label="Italic">
+              <Italic />
+            </Toolbar.ToggleItem>
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="strikethrough" label="Strike through">
+              <StrikeThrough />
+            </Toolbar.ToggleItem>
+          </Toolbar.ToggleGroup>
+          <Toolbar.Separator className="ToolbarSeparator" />
+          <Toolbar.ToggleGroup type="single" defaultValue="center" aria-label="Text alignment">
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="left" label="Left aligned">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" {...svgProps}>
+                <path d="M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32" />
+              </svg>
+            </Toolbar.ToggleItem>
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="center" label="Center aligned">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" {...svgProps}>
+                <path d="M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32" />
+              </svg>
+            </Toolbar.ToggleItem>
+            <Toolbar.ToggleItem className="ToolbarToggleItem" value="right" label="Right aligned">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" {...svgProps}>
+                <path d="M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32" />
+              </svg>
+            </Toolbar.ToggleItem>
+          </Toolbar.ToggleGroup>
+          <Toolbar.Separator className="ToolbarSeparator" />
+          <Toolbar.Link className="ToolbarLink" href="#" target="_blank" style={{ marginRight: 10 }}>
+            Edited 2 hours ago
+          </Toolbar.Link>
+          <Toolbar.Button className="ToolbarButton" style={{ marginLeft: 'auto' }}>
+            Share
+          </Toolbar.Button>
+        </Toolbar.Root>
+      </div>
       <div style={{ display: 'flex', gap: '1rem', margin: '1rem', alignItems: 'center' }}>
         <SegmentedControl.Root value={view} onChange={setView} style={{ width: '550px' }}>
           <SegmentedControl.Item value="1">Option 1</SegmentedControl.Item>
@@ -50,3 +91,11 @@ if (container) {
   const root = createRoot(container);
   root.render(<App />);
 }
+
+const svgProps = {
+  width: '16',
+  height: '16',
+  fill: 'currentColor',
+  'aria-hidden': true,
+  focusable: false,
+};

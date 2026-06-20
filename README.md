@@ -60,6 +60,44 @@ function MyApp() {
 }
 ```
 
+#### `Toolbar`
+A container toolbar component based on Radix UI's `Toolbar` primitive, visually matching Strapi design system guidelines.
+- **Single vs Multiple Selection Groups**: Supports multiple choice toggle sub-groups (multiple checkbox behavior) or single choice toggle sub-groups (radio group behavior).
+- **Auto-Selection**: In `single` selection mode, if no default-selected item starts selected (`value` or `defaultValue`), the first item's value is automatically chosen.
+- **Strict Single-Selection Constraint**: Single selection groups enforce that at least one option always remains active and selected; users cannot click to clear the selected item entirely.
+- **Sub-Component Integration**: Integrates directly with standalone buttons, links, and separators formatted for perfect alignment.
+
+##### Usage Example:
+```tsx
+import { Toolbar } from 'strapi-design-extended';
+import { Bold, Italic, AlignLeft, AlignCenter, Write } from '@strapi/icons';
+
+function MyApp() {
+  return (
+    <Toolbar.Root aria-label="Formatting options">
+      {/* Multiple Selection Toggle Group */}
+      <Toolbar.ToggleGroup type="multiple" aria-label="Text formatting">
+        <Toolbar.ToggleItem value="bold" aria-label="Bold"><Bold /></Toolbar.ToggleItem>
+        <Toolbar.ToggleItem value="italic" aria-label="Italic"><Italic /></Toolbar.ToggleItem>
+      </Toolbar.ToggleGroup>
+
+      <Toolbar.Separator />
+
+      {/* Single Selection Toggle Group */}
+      <Toolbar.ToggleGroup type="single" defaultValue="center" aria-label="Text alignment">
+        <Toolbar.ToggleItem value="left" aria-label="Left aligned"><AlignLeft /></Toolbar.ToggleItem>
+        <Toolbar.ToggleItem value="center" aria-label="Center aligned"><AlignCenter /></Toolbar.ToggleItem>
+      </Toolbar.ToggleGroup>
+
+      <Toolbar.Separator />
+
+      <Toolbar.Link href="#" target="_blank">Edited 2 mins ago</Toolbar.Link>
+      <Toolbar.Button startIcon={<Write />} style={{ marginLeft: 'auto' }}>Submit</Toolbar.Button>
+    </Toolbar.Root>
+  );
+}
+```
+
 ---
 
 ### 2. Hooks
