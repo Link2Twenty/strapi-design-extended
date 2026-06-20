@@ -588,7 +588,7 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/3 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">3/3 infos</a><a class="filter-pill err" data-k="story-errors" href="#filter-story-errors">1/9 story errors</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">3/4 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">4/4 infos</a><a class="filter-pill err" data-k="story-errors" href="#filter-story-errors">1/12 story errors</a></div>
   </div>
 </header>
 <main>
@@ -1237,45 +1237,35 @@ import { Slider } from "strapi-design-extended";</code></pre>
     
   </div>
 </article>
-    </div>
-    <div class="error-groups" role="region" aria-label="Prop type error groups">
-        <section class="group">
-          <input id="no-component-import-found-toggle" class="group-tg" type="checkbox" hidden />
-          <label for="no-component-import-found-toggle" class="group-header">
-            <span class="caret">▸</span>
-            <span class="group-title">No component import found</span>
-            <span class="group-count">1</span>
-          </label>
-          <div class="group-cards">
 <article
   class="card 
   has-error 
   has-info 
-  has-story-error
+  no-story-error
   no-doc-error"
   role="listitem"
-  aria-label="DisplayTokensComponent">
+  aria-label="Toolbar.Root">
   <div class="head">
     <div class="title">
-      <h2><span class="status-dot dot-err"></span> DisplayTokensComponent</h2>
+      <h2><span class="status-dot dot-err"></span> Toolbar.Root</h2>
       <div class="badges">
-        <label for="c-error-0-hooks-usedesigntokens-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-error-0-hooks-usedesigntokens-info" class="badge info as-toggle">1 info</label>
-        <label for="c-error-0-hooks-usedesigntokens-stories" class="badge err as-toggle">1/1 story errors</label>
+        <label for="c-3-components-toolbar-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-3-components-toolbar-info" class="badge info as-toggle">1 info</label>
+        <label for="c-3-components-toolbar-stories" class="badge ok as-toggle">3 stories</label>
         
         
       </div>
     </div>
-    <div class="meta" title="./src/hooks/useDesignTokens/useDesignTokens.stories.tsx">hooks-usedesigntokens · ./src/hooks/useDesignTokens/useDesignTokens.stories.tsx</div>
+    <div class="meta" title="./src/components/Toolbar/Toolbar.stories.tsx">components-toolbar · ./src/components/Toolbar/Toolbar.stories.tsx</div>
     
     
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-error-0-hooks-usedesigntokens-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-error-0-hooks-usedesigntokens-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-error-0-hooks-usedesigntokens-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-3-components-toolbar-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-3-components-toolbar-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-3-components-toolbar-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
   
@@ -1286,104 +1276,164 @@ import { Slider } from "strapi-design-extended";</code></pre>
           
     <div class="note err">
       <div class="note-title">Prop type error</div>
-      <div class="note-body"><pre><code>No component file found for the &quot;DisplayTokensComponent&quot; component.
-  78 | };
-  79 |
-&gt; 80 | const meta: Meta = {
-     | ^
-  81 |   title: &#39;Hooks/useDesignTokens&#39;,
-  82 |   component: DisplayTokensComponent,
-  83 | };
+      <div class="note-body"><pre><code>File: /home/andrew/strapi/strapi-design-extended/src/components/Toolbar/Toolbar.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import React, { useState, useEffect, useMemo, isValidElement, Children } from &#39;react&#39;;
+import { Toolbar as ToolbarPrimative } from &#39;radix-ui&#39;;
 
-./src/hooks/useDesignTokens/useDesignTokens.stories.tsx:
-import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+// Components
+import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from &#39;@strapi/design-system&#39;;
+
+// Hooks
 import { useDesignTokens } from &#39;../../hooks&#39;;
-import { Typography, Button } from &#39;@strapi/design-system&#39;;
-import { useState } from &#39;react&#39;;
 
-const CodePreview = ({ code }: { code: string }) =&gt; {
-  const [show, setShow] = useState(false);
+// Types
+import type { ComponentProps, ReactElement } from &#39;react&#39;;
+
+const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Root&gt;) =&gt; {
+  useDesignTokens();
+
   return (
-    &lt;div style={{ marginTop: &#39;1.5rem&#39;, borderTop: &#39;1px solid #eee&#39;, paddingTop: &#39;1rem&#39; }}&gt;
-      &lt;Button variant=&quot;tertiary&quot; onClick={() =&gt; setShow(!show)}&gt;
-        {show ? &#39;Hide Code&#39; : &#39;Show Code&#39;}
-      &lt;/Button&gt;
-      {show &amp;&amp; (
-        &lt;pre style={{
-          marginTop: &#39;1rem&#39;,
-          padding: &#39;1rem&#39;,
-          background: &#39;#f6f8fa&#39;,
-          borderRadius: &#39;6px&#39;,
-          overflowX: &#39;auto&#39;,
-          fontSize: &#39;13px&#39;,
-          fontFamily: &#39;monospace&#39;,
-          border: &#39;1px solid #e1e4e8&#39;
-        }}&gt;
-          &lt;code&gt;{code}&lt;/code&gt;
-        &lt;/pre&gt;
-      )}
-    &lt;/div&gt;
+    &lt;ToolbarPrimative.Root {...props} asChild&gt;
+      &lt;Flex hasRadius background=&quot;neutral100&quot; padding={1} gap={1} borderColor=&quot;neutral200&quot; borderWidth=&quot;1px&quot;&gt;
+        {children}
+      &lt;/Flex&gt;
+    &lt;/ToolbarPrimative.Root&gt;
   );
 };
 
-const DisplayTokensComponent = () =&gt; {
-  const tokens = useDesignTokens();
+const ToggleGroup = ({
+  children,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  type,
+  ...props
+}: ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;) =&gt; {
+  const isSingle = type === &#39;single&#39;;
 
-  if (!tokens || !tokens.theme) {
-    return &lt;Typography&gt;Loading design system context styled-theme...&lt;/Typography&gt;;
-  }
+  const firstValue = useMemo(() =&gt; {
+    return Children.toArray(children)
+      .map((child) =&gt; (isValidElement(child) ? (child.props as any).value : undefined))
+      .find((val) =&gt; typeof val === &#39;string&#39;);
+  }, [children]);
 
-  // Cast token return values safely to satisfy the union types resolved by typescript
-  const dangerousColorOutput = String(tokens.color(&#39;danger500&#39;));
-  const successColorOutput = String(tokens.color(&#39;success600&#39;));
-  const spaceFourOutput = String(tokens.space(&#39;4&#39; as any));
+  // Determine initial local value
+  const [localValue, setLocalValue] = useState&lt;any&gt;(() =&gt; {
+    if (defaultValue !== undefined) return defaultValue;
+    if (isSingle) return firstValue;
+    return undefined;
+  });
 
-  const code = `import { useDesignTokens } from &#39;strapi-design-extended&#39;;\nimport { Typography } from &#39;@strapi/design-system&#39;;\n\nfunction CustomComponent() {\n  const tokens = useDesignTokens();\n  \n  return (\n    &lt;div style={{ \n      backgroundColor: tokens.color(&#39;danger500&#39;), \n      padding: tokens.space(&#39;4&#39;) \n    }}&gt;\n      &lt;Typography textColor=&quot;neutral0&quot;&gt;Styled content&lt;/Typography&gt;\n    &lt;/div&gt;\n  );\n}`;
+  // Keep it sync&#39;d with firstValue changing when no default/value is supplied
+  useEffect(() =&gt; {
+    if (isSingle &amp;&amp; valueProp === undefined &amp;&amp; defaultValue === undefined &amp;&amp; !localValue &amp;&amp; firstValue) {
+      setLocalValue(firstValue);
+    }
+  }, [isSingle, firstValue, valueProp, defaultValue, localValue]);
+
+  const value = valueProp !== undefined ? valueProp : localValue;
+
+  const handleValueChange = (newValue: any) =&gt; {
+    // If it is single selection, there must always be at least one selected.
+    // So if newValue is empty/falsy, do not change the value.
+    if (isSingle) {
+      if (newValue) {
+        if (valueProp === undefined) {
+          setLocalValue(newValue);
+        }
+        (onValueChange as any)?.(newValue);
+      }
+    } else {
+      if (valueProp === undefined) {
+        setLocalValue(newValue);
+      }
+      (onValueChange as any)?.(newValue);
+    }
+  };
+
+  const clonedChildren = Children.map(children, (child) =&gt; {
+    if (isValidElement(child)) {
+      const childValue = (child.props as any).value;
+      const isActive = isSingle ? value === childValue : Array.isArray(value) ? value.includes(childValue) : false;
+
+      return React.cloneElement(child as ReactElement&lt;any&gt;, { active: isActive });
+    }
+    return child;
+  });
 
   return (
-    &lt;div style={{ padding: &#39;1rem&#39;, display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
-      &lt;Typography variant=&quot;beta&quot;&gt;useDesignTokens API&lt;/Typography&gt;
-      &lt;Typography variant=&quot;pi&quot;&gt;
-        This renders styled-components tokens retrieved dynamically, while simultaneously registering high-performance
-        CSS custom property variables on `document.head` (e.g. `--strapi-colors-neutral0`).
-      &lt;/Typography&gt;
-
-      &lt;div style={{ display: &#39;grid&#39;, gridTemplateColumns: &#39;1fr 1fr&#39;, gap: &#39;1rem&#39; }}&gt;
-        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
-          &lt;Typography variant=&quot;delta&quot;&gt;Sample Color Getter&lt;/Typography&gt;
-          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
-            &lt;div
-              style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: dangerousColorOutput, borderRadius: &#39;50%&#39; }}
-            /&gt;
-            &lt;Typography&gt;tokens.color(&amp;apos;danger500&amp;apos;): {dangerousColorOutput}&lt;/Typography&gt;
-          &lt;/div&gt;
-          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
-            &lt;div style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: successColorOutput, borderRadius: &#39;50%&#39; }} /&gt;
-            &lt;Typography&gt;tokens.color(&amp;apos;success600&amp;apos;): {successColorOutput}&lt;/Typography&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
-          &lt;Typography variant=&quot;delta&quot;&gt;Spacing and Borders&lt;/Typography&gt;
-          &lt;div&gt;
-            &lt;Typography style={{ marginTop: &#39;0.5rem&#39; }}&gt;tokens.space(4): {spaceFourOutput}&lt;/Typography&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;CodePreview code={code} /&gt;
-    &lt;/div&gt;
+    &lt;ToolbarPrimative.ToggleGroup
+      asChild
+      value={value}
+      onValueChange={handleValueChange}
+      type={type}
+      {...(props as any)}
+    &gt;
+      &lt;Flex gap={1}&gt;{clonedChildren}&lt;/Flex&gt;
+    &lt;/ToolbarPrimative.ToggleGroup&gt;
   );
 };
 
-const meta: Meta = {
-  title: &#39;Hooks/useDesignTokens&#39;,
-  component: DisplayTokensComponent,
+const ToggleItem = ({
+  children,
+  label,
+  active,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof IconButton&gt; &amp; { active?: boolean }) =&gt; {
+  return (
+    &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
+        {children}
+      &lt;/IconButton&gt;
+    &lt;/ToolbarPrimative.ToggleItem&gt;
+  );
 };
 
-export default meta;
-type Story = StoryObj;
+const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Separator {...props} asChild&gt;
+      &lt;Box
+        width=&quot;1px&quot;
+        marginLeft={2}
+        marginRight={2}
+        marginTop={1}
+        marginBottom={1}
+        background=&quot;neutral200&quot;
+        style={{ alignSelf: &#39;stretch&#39; }}
+      /&gt;
+    &lt;/ToolbarPrimative.Separator&gt;
+  );
+};
 
-export const Default: Story = {};
+const Link = ({
+  children,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiLink&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Link asChild {...props}&gt;
+      &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
+    &lt;/ToolbarPrimative.Link&gt;
+  );
+};
+
+const Button = ({
+  className,
+  children,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiButton&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Button asChild {...props}&gt;
+      &lt;StrapiButton&gt;{children}&lt;/StrapiButton&gt;
+    &lt;/ToolbarPrimative.Button&gt;
+  );
+};
+
+export default { Root, ToggleGroup, ToggleItem, Separator, Link, Button };
 </code></pre></div>
     </div>
         </div>
@@ -1399,39 +1449,160 @@ export const Default: Story = {};
     
         <div class="panel panel-stories">
           
-            <div class="note err">
-              <div class="row">
-                <span class="ex-name">Default</span>
-                <span class="badge err">story error</span>
-              </div>
-              
-              
-              
-              <pre><code>Could not generate snippet without component name.</code></pre>
-            </div>
           
           
           <div class="note ok">
                 <div class="row">
                   <span class="ex-name">Imports</span>
                 </div>
-                <pre><code>import { Button, Typography } from "@strapi/design-system";</code></pre>
+                <pre><code>import { ArrowLineLeft, ArrowLineRight, Bold, Italic, StrikeThrough } from "@strapi/icons";
+import { Button, Typography } from "@strapi/design-system";
+import { Toolbar } from "strapi-design-extended";</code></pre>
               </div>
           
           
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = (args) =&gt; {
+  const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { Bold, Italic, StrikeThrough } from &#39;@strapi/icons&#39;;\n\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;\n      &lt;Bold /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;\n      &lt;Italic /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;\n      &lt;StrikeThrough /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;\n      &lt;AlignLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;\n      &lt;AlignCenter /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;\n      &lt;AlignRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;\n    Edited 2 hours ago\n  &lt;/Toolbar.Link&gt;\n  &lt;Toolbar.Button style={{ marginLeft: &#39;auto&#39; }}&gt;\n    Share\n  &lt;/Toolbar.Button&gt;\n&lt;/Toolbar.Root&gt;`;
+  return (
+    &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+      &lt;Toolbar.Root className=&quot;ToolbarRoot&quot; aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
+        &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
+            &lt;Bold /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
+            &lt;Italic /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
+            &lt;StrikeThrough /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+        &lt;/Toolbar.ToggleGroup&gt;
+        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+        &lt;/Toolbar.ToggleGroup&gt;
+        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.Link className=&quot;ToolbarLink&quot; href=&quot;#&quot; target=&quot;_blank&quot; style={{ marginRight: 10 }}&gt;
+          Edited 2 hours ago
+        &lt;/Toolbar.Link&gt;
+        &lt;Toolbar.Button className=&quot;ToolbarButton&quot; style={{ marginLeft: &#39;auto&#39; }}&gt;
+          Share
+        &lt;/Toolbar.Button&gt;
+      &lt;/Toolbar.Root&gt;
+      &lt;CodePreview code={code} /&gt;
+    &lt;/div&gt;
+  );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled Single</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ControlledSingle = () =&gt; {
+    const [alignment, setAlignment] = useState(&#39;center&#39;);
+    const code = `import { useState } from &#39;react&#39;;\nimport { Toolbar } from &#39;strapi-design-extended&#39;;\n\nfunction ControlledExample() {\n  const [alignment, setAlignment] = useState(&#39;center&#39;);\n  return (\n    &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n      &lt;Toolbar.ToggleGroup type=&quot;single&quot; value={alignment} onValueChange={setAlignment} aria-label=&quot;Text alignment&quot;&gt;\n        &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;&lt;AlignLeft /&gt;&lt;/Toolbar.ToggleItem&gt;\n        &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;&lt;AlignCenter /&gt;&lt;/Toolbar.ToggleItem&gt;\n        &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;&lt;AlignRight /&gt;&lt;/Toolbar.ToggleItem&gt;\n      &lt;/Toolbar.ToggleGroup&gt;\n    &lt;/Toolbar.Root&gt;\n  );\n}`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;
+                &lt;Toolbar.ToggleGroup
+                    type=&quot;single&quot;
+                    value={alignment}
+                    onValueChange={setAlignment}
+                    aria-label=&quot;Text alignment&quot;&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                &lt;/Toolbar.ToggleGroup&gt;
+            &lt;/Toolbar.Root&gt;
+            &lt;div&gt;Selected alignment: {alignment}&lt;/div&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Auto Selects First Single</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AutoSelectsFirstSingle = () =&gt; {
+    const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { ArrowLineLeft, ArrowLineRight } from &#39;@strapi/icons&#39;;\n\n// No &#39;value&#39; or &#39;defaultValue&#39; provided on a &#39;single&#39; ToggleGroup\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; aria-label=&quot;Select first&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;first&quot; label=&quot;First item&quot;&gt;\n      &lt;ArrowLineLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;second&quot; label=&quot;Second item&quot;&gt;\n      &lt;ArrowLineRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n&lt;/Toolbar.Root&gt;`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;Typography variant=&quot;pi&quot;&gt;If neither value nor defaultValue is specified on a &lt;code&gt;single&lt;/code&gt;ToggleGroup, it automatically selects
+                          the first item inside.
+                        &lt;/Typography&gt;
+            &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;
+                &lt;Toolbar.ToggleGroup type=&quot;single&quot; aria-label=&quot;Select first&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;first&quot; aria-label=&quot;First item&quot;&gt;
+                        &lt;ArrowLineLeft /&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;second&quot; aria-label=&quot;Second item&quot;&gt;
+                        &lt;ArrowLineRight /&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                &lt;/Toolbar.ToggleGroup&gt;
+            &lt;/Toolbar.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
         </div>
     
     
   </div>
-</article></div>
-        </section>
-      
+</article>
+    </div>
+    <div class="error-groups" role="region" aria-label="Prop type error groups">
         <section class="group">
           <input id="no-component-definition-found-toggle" class="group-tg" type="checkbox" hidden />
           <label for="no-component-definition-found-toggle" class="group-header">
             <span class="caret">▸</span>
             <span class="group-title">No component definition found</span>
-            <span class="group-count">1</span>
+            <span class="group-count">2</span>
           </label>
           <div class="group-cards">
 <article
@@ -1696,6 +1867,551 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
     );
 };</code></pre>
             </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Toolbar.Root">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Toolbar.Root</h2>
+      <div class="badges">
+        <label for="c-error-1-components-toolbar-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-1-components-toolbar-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-1-components-toolbar-stories" class="badge ok as-toggle">3 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/Toolbar/Toolbar.stories.tsx">components-toolbar · ./src/components/Toolbar/Toolbar.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-1-components-toolbar-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-1-components-toolbar-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-1-components-toolbar-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: /home/andrew/strapi/strapi-design-extended/src/components/Toolbar/Toolbar.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import React, { useState, useEffect, useMemo, isValidElement, Children } from &#39;react&#39;;
+import { Toolbar as ToolbarPrimative } from &#39;radix-ui&#39;;
+
+// Components
+import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from &#39;@strapi/design-system&#39;;
+
+// Hooks
+import { useDesignTokens } from &#39;../../hooks&#39;;
+
+// Types
+import type { ComponentProps, ReactElement } from &#39;react&#39;;
+
+const Root = ({ children, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Root&gt;) =&gt; {
+  useDesignTokens();
+
+  return (
+    &lt;ToolbarPrimative.Root {...props} asChild&gt;
+      &lt;Flex hasRadius background=&quot;neutral100&quot; padding={1} gap={1} borderColor=&quot;neutral200&quot; borderWidth=&quot;1px&quot;&gt;
+        {children}
+      &lt;/Flex&gt;
+    &lt;/ToolbarPrimative.Root&gt;
+  );
+};
+
+const ToggleGroup = ({
+  children,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  type,
+  ...props
+}: ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;) =&gt; {
+  const isSingle = type === &#39;single&#39;;
+
+  const firstValue = useMemo(() =&gt; {
+    return Children.toArray(children)
+      .map((child) =&gt; (isValidElement(child) ? (child.props as any).value : undefined))
+      .find((val) =&gt; typeof val === &#39;string&#39;);
+  }, [children]);
+
+  // Determine initial local value
+  const [localValue, setLocalValue] = useState&lt;any&gt;(() =&gt; {
+    if (defaultValue !== undefined) return defaultValue;
+    if (isSingle) return firstValue;
+    return undefined;
+  });
+
+  // Keep it sync&#39;d with firstValue changing when no default/value is supplied
+  useEffect(() =&gt; {
+    if (isSingle &amp;&amp; valueProp === undefined &amp;&amp; defaultValue === undefined &amp;&amp; !localValue &amp;&amp; firstValue) {
+      setLocalValue(firstValue);
+    }
+  }, [isSingle, firstValue, valueProp, defaultValue, localValue]);
+
+  const value = valueProp !== undefined ? valueProp : localValue;
+
+  const handleValueChange = (newValue: any) =&gt; {
+    // If it is single selection, there must always be at least one selected.
+    // So if newValue is empty/falsy, do not change the value.
+    if (isSingle) {
+      if (newValue) {
+        if (valueProp === undefined) {
+          setLocalValue(newValue);
+        }
+        (onValueChange as any)?.(newValue);
+      }
+    } else {
+      if (valueProp === undefined) {
+        setLocalValue(newValue);
+      }
+      (onValueChange as any)?.(newValue);
+    }
+  };
+
+  const clonedChildren = Children.map(children, (child) =&gt; {
+    if (isValidElement(child)) {
+      const childValue = (child.props as any).value;
+      const isActive = isSingle ? value === childValue : Array.isArray(value) ? value.includes(childValue) : false;
+
+      return React.cloneElement(child as ReactElement&lt;any&gt;, { active: isActive });
+    }
+    return child;
+  });
+
+  return (
+    &lt;ToolbarPrimative.ToggleGroup
+      asChild
+      value={value}
+      onValueChange={handleValueChange}
+      type={type}
+      {...(props as any)}
+    &gt;
+      &lt;Flex gap={1}&gt;{clonedChildren}&lt;/Flex&gt;
+    &lt;/ToolbarPrimative.ToggleGroup&gt;
+  );
+};
+
+const ToggleItem = ({
+  children,
+  label,
+  active,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleItem&gt;, &#39;asChild&#39;&gt; &amp;
+  ComponentProps&lt;typeof IconButton&gt; &amp; { active?: boolean }) =&gt; {
+  return (
+    &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
+        {children}
+      &lt;/IconButton&gt;
+    &lt;/ToolbarPrimative.ToggleItem&gt;
+  );
+};
+
+const Separator = ({ className, ...props }: ComponentProps&lt;typeof ToolbarPrimative.Separator&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Separator {...props} asChild&gt;
+      &lt;Box
+        width=&quot;1px&quot;
+        marginLeft={2}
+        marginRight={2}
+        marginTop={1}
+        marginBottom={1}
+        background=&quot;neutral200&quot;
+        style={{ alignSelf: &#39;stretch&#39; }}
+      /&gt;
+    &lt;/ToolbarPrimative.Separator&gt;
+  );
+};
+
+const Link = ({
+  children,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiLink&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Link asChild {...props}&gt;
+      &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
+    &lt;/ToolbarPrimative.Link&gt;
+  );
+};
+
+const Button = ({
+  className,
+  children,
+  ...props
+}: Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Button&gt;, &#39;asChild&#39;&gt; &amp; ComponentProps&lt;typeof StrapiButton&gt;) =&gt; {
+  return (
+    &lt;ToolbarPrimative.Button asChild {...props}&gt;
+      &lt;StrapiButton&gt;{children}&lt;/StrapiButton&gt;
+    &lt;/ToolbarPrimative.Button&gt;
+  );
+};
+
+export default { Root, ToggleGroup, ToggleItem, Separator, Link, Button };
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { ArrowLineLeft, ArrowLineRight, Bold, Italic, StrikeThrough } from "@strapi/icons";
+import { Button, Typography } from "@strapi/design-system";
+import { Toolbar } from "strapi-design-extended";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = (args) =&gt; {
+  const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { Bold, Italic, StrikeThrough } from &#39;@strapi/icons&#39;;\n\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;\n      &lt;Bold /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;\n      &lt;Italic /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;\n      &lt;StrikeThrough /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;\n      &lt;AlignLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;\n      &lt;AlignCenter /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;\n      &lt;AlignRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;\n    Edited 2 hours ago\n  &lt;/Toolbar.Link&gt;\n  &lt;Toolbar.Button style={{ marginLeft: &#39;auto&#39; }}&gt;\n    Share\n  &lt;/Toolbar.Button&gt;\n&lt;/Toolbar.Root&gt;`;
+  return (
+    &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+      &lt;Toolbar.Root className=&quot;ToolbarRoot&quot; aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
+        &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
+            &lt;Bold /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
+            &lt;Italic /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
+            &lt;StrikeThrough /&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+        &lt;/Toolbar.ToggleGroup&gt;
+        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+              &lt;path d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/Toolbar.ToggleItem&gt;
+        &lt;/Toolbar.ToggleGroup&gt;
+        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.Link className=&quot;ToolbarLink&quot; href=&quot;#&quot; target=&quot;_blank&quot; style={{ marginRight: 10 }}&gt;
+          Edited 2 hours ago
+        &lt;/Toolbar.Link&gt;
+        &lt;Toolbar.Button className=&quot;ToolbarButton&quot; style={{ marginLeft: &#39;auto&#39; }}&gt;
+          Share
+        &lt;/Toolbar.Button&gt;
+      &lt;/Toolbar.Root&gt;
+      &lt;CodePreview code={code} /&gt;
+    &lt;/div&gt;
+  );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled Single</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ControlledSingle = () =&gt; {
+    const [alignment, setAlignment] = useState(&#39;center&#39;);
+    const code = `import { useState } from &#39;react&#39;;\nimport { Toolbar } from &#39;strapi-design-extended&#39;;\n\nfunction ControlledExample() {\n  const [alignment, setAlignment] = useState(&#39;center&#39;);\n  return (\n    &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n      &lt;Toolbar.ToggleGroup type=&quot;single&quot; value={alignment} onValueChange={setAlignment} aria-label=&quot;Text alignment&quot;&gt;\n        &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;&lt;AlignLeft /&gt;&lt;/Toolbar.ToggleItem&gt;\n        &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;&lt;AlignCenter /&gt;&lt;/Toolbar.ToggleItem&gt;\n        &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;&lt;AlignRight /&gt;&lt;/Toolbar.ToggleItem&gt;\n      &lt;/Toolbar.ToggleGroup&gt;\n    &lt;/Toolbar.Root&gt;\n  );\n}`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;
+                &lt;Toolbar.ToggleGroup
+                    type=&quot;single&quot;
+                    value={alignment}
+                    onValueChange={setAlignment}
+                    aria-label=&quot;Text alignment&quot;&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
+                            &lt;path
+                                d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                &lt;/Toolbar.ToggleGroup&gt;
+            &lt;/Toolbar.Root&gt;
+            &lt;div&gt;Selected alignment: {alignment}&lt;/div&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Auto Selects First Single</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AutoSelectsFirstSingle = () =&gt; {
+    const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { ArrowLineLeft, ArrowLineRight } from &#39;@strapi/icons&#39;;\n\n// No &#39;value&#39; or &#39;defaultValue&#39; provided on a &#39;single&#39; ToggleGroup\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; aria-label=&quot;Select first&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;first&quot; label=&quot;First item&quot;&gt;\n      &lt;ArrowLineLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;second&quot; label=&quot;Second item&quot;&gt;\n      &lt;ArrowLineRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n&lt;/Toolbar.Root&gt;`;
+
+    return (
+        &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+            &lt;Typography variant=&quot;pi&quot;&gt;If neither value nor defaultValue is specified on a &lt;code&gt;single&lt;/code&gt;ToggleGroup, it automatically selects
+                          the first item inside.
+                        &lt;/Typography&gt;
+            &lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;
+                &lt;Toolbar.ToggleGroup type=&quot;single&quot; aria-label=&quot;Select first&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;first&quot; aria-label=&quot;First item&quot;&gt;
+                        &lt;ArrowLineLeft /&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;second&quot; aria-label=&quot;Second item&quot;&gt;
+                        &lt;ArrowLineRight /&gt;
+                    &lt;/Toolbar.ToggleItem&gt;
+                &lt;/Toolbar.ToggleGroup&gt;
+            &lt;/Toolbar.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article></div>
+        </section>
+      
+        <section class="group">
+          <input id="no-component-import-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-import-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component import found</span>
+            <span class="group-count">1</span>
+          </label>
+          <div class="group-cards">
+<article
+  class="card 
+  has-error 
+  has-info 
+  has-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="DisplayTokensComponent">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> DisplayTokensComponent</h2>
+      <div class="badges">
+        <label for="c-error-0-hooks-usedesigntokens-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-0-hooks-usedesigntokens-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-hooks-usedesigntokens-stories" class="badge err as-toggle">1/1 story errors</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/hooks/useDesignTokens/useDesignTokens.stories.tsx">hooks-usedesigntokens · ./src/hooks/useDesignTokens/useDesignTokens.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-hooks-usedesigntokens-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-hooks-usedesigntokens-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-hooks-usedesigntokens-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;DisplayTokensComponent&quot; component.
+  78 | };
+  79 |
+&gt; 80 | const meta: Meta = {
+     | ^
+  81 |   title: &#39;Hooks/useDesignTokens&#39;,
+  82 |   component: DisplayTokensComponent,
+  83 | };
+
+./src/hooks/useDesignTokens/useDesignTokens.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import { useDesignTokens } from &#39;../../hooks&#39;;
+import { Typography, Button } from &#39;@strapi/design-system&#39;;
+import { useState } from &#39;react&#39;;
+
+const CodePreview = ({ code }: { code: string }) =&gt; {
+  const [show, setShow] = useState(false);
+  return (
+    &lt;div style={{ marginTop: &#39;1.5rem&#39;, borderTop: &#39;1px solid #eee&#39;, paddingTop: &#39;1rem&#39; }}&gt;
+      &lt;Button variant=&quot;tertiary&quot; onClick={() =&gt; setShow(!show)}&gt;
+        {show ? &#39;Hide Code&#39; : &#39;Show Code&#39;}
+      &lt;/Button&gt;
+      {show &amp;&amp; (
+        &lt;pre style={{
+          marginTop: &#39;1rem&#39;,
+          padding: &#39;1rem&#39;,
+          background: &#39;#f6f8fa&#39;,
+          borderRadius: &#39;6px&#39;,
+          overflowX: &#39;auto&#39;,
+          fontSize: &#39;13px&#39;,
+          fontFamily: &#39;monospace&#39;,
+          border: &#39;1px solid #e1e4e8&#39;
+        }}&gt;
+          &lt;code&gt;{code}&lt;/code&gt;
+        &lt;/pre&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+const DisplayTokensComponent = () =&gt; {
+  const tokens = useDesignTokens();
+
+  if (!tokens || !tokens.theme) {
+    return &lt;Typography&gt;Loading design system context styled-theme...&lt;/Typography&gt;;
+  }
+
+  // Cast token return values safely to satisfy the union types resolved by typescript
+  const dangerousColorOutput = String(tokens.color(&#39;danger500&#39;));
+  const successColorOutput = String(tokens.color(&#39;success600&#39;));
+  const spaceFourOutput = String(tokens.space(&#39;4&#39; as any));
+
+  const code = `import { useDesignTokens } from &#39;strapi-design-extended&#39;;\nimport { Typography } from &#39;@strapi/design-system&#39;;\n\nfunction CustomComponent() {\n  const tokens = useDesignTokens();\n  \n  return (\n    &lt;div style={{ \n      backgroundColor: tokens.color(&#39;danger500&#39;), \n      padding: tokens.space(&#39;4&#39;) \n    }}&gt;\n      &lt;Typography textColor=&quot;neutral0&quot;&gt;Styled content&lt;/Typography&gt;\n    &lt;/div&gt;\n  );\n}`;
+
+  return (
+    &lt;div style={{ padding: &#39;1rem&#39;, display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
+      &lt;Typography variant=&quot;beta&quot;&gt;useDesignTokens API&lt;/Typography&gt;
+      &lt;Typography variant=&quot;pi&quot;&gt;
+        This renders styled-components tokens retrieved dynamically, while simultaneously registering high-performance
+        CSS custom property variables on `document.head` (e.g. `--strapi-colors-neutral0`).
+      &lt;/Typography&gt;
+
+      &lt;div style={{ display: &#39;grid&#39;, gridTemplateColumns: &#39;1fr 1fr&#39;, gap: &#39;1rem&#39; }}&gt;
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Sample Color Getter&lt;/Typography&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div
+              style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: dangerousColorOutput, borderRadius: &#39;50%&#39; }}
+            /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;danger500&amp;apos;): {dangerousColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+          &lt;div style={{ display: &#39;flex&#39;, gap: &#39;0.5rem&#39;, alignItems: &#39;center&#39;, marginTop: &#39;0.5rem&#39; }}&gt;
+            &lt;div style={{ width: &#39;20px&#39;, height: &#39;20px&#39;, backgroundColor: successColorOutput, borderRadius: &#39;50%&#39; }} /&gt;
+            &lt;Typography&gt;tokens.color(&amp;apos;success600&amp;apos;): {successColorOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;1rem&#39;, borderRadius: &#39;4px&#39; }}&gt;
+          &lt;Typography variant=&quot;delta&quot;&gt;Spacing and Borders&lt;/Typography&gt;
+          &lt;div&gt;
+            &lt;Typography style={{ marginTop: &#39;0.5rem&#39; }}&gt;tokens.space(4): {spaceFourOutput}&lt;/Typography&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;CodePreview code={code} /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const meta: Meta = {
+  title: &#39;Hooks/useDesignTokens&#39;,
+  component: DisplayTokensComponent,
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+            <div class="note err">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge err">story error</span>
+              </div>
+              
+              
+              
+              <pre><code>Could not generate snippet without component name.</code></pre>
+            </div>
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";</code></pre>
+              </div>
+          
+          
         </div>
     
     
