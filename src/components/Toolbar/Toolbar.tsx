@@ -4,15 +4,12 @@ import { Toolbar as ToolbarPrimative } from 'radix-ui';
 // Components
 import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from '@strapi/design-system';
 
-// Hooks
-import { useDesignTokens } from '../../hooks';
-
 // Types
 import type { ComponentProps, ReactElement } from 'react';
 
-const Root = ({ children, ...props }: ComponentProps<typeof ToolbarPrimative.Root>) => {
-  useDesignTokens();
+type ToolbarRootProps = Omit<ComponentProps<typeof ToolbarPrimative.Root>, 'asChild'>;
 
+const Root = ({ children, ...props }: ToolbarRootProps) => {
   return (
     <ToolbarPrimative.Root {...props} asChild>
       <Flex hasRadius background="neutral100" padding={1} gap={1} borderColor="neutral200" borderWidth="1px">
@@ -22,14 +19,11 @@ const Root = ({ children, ...props }: ComponentProps<typeof ToolbarPrimative.Roo
   );
 };
 
-const ToggleGroup = ({
-  children,
-  value: valueProp,
-  defaultValue,
-  onValueChange,
-  type,
-  ...props
-}: ComponentProps<typeof ToolbarPrimative.ToggleGroup>) => {
+type ToggleGroupProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleGroup>, 'asChild' | 'onValueChange'> & {
+  onValueChange?: (value: string | string[]) => void;
+};
+
+const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) => {
   const isSingle = type === 'single';
 
   const firstValue = useMemo(() => {
@@ -95,13 +89,12 @@ const ToggleGroup = ({
   );
 };
 
-const ToggleItem = ({
-  children,
-  label,
-  active,
-  ...props
-}: Omit<ComponentProps<typeof ToolbarPrimative.ToggleItem>, 'asChild'> &
-  ComponentProps<typeof IconButton> & { active?: boolean }) => {
+type ToggleItemProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleItem>, 'asChild'> &
+  ComponentProps<typeof IconButton> & {
+    active?: boolean;
+  };
+
+const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) => {
   return (
     <ToolbarPrimative.ToggleItem asChild {...props}>
       <IconButton label={label} variant={active ? 'tertiary' : 'ghost'}>
@@ -111,7 +104,9 @@ const ToggleItem = ({
   );
 };
 
-const Separator = ({ className, ...props }: ComponentProps<typeof ToolbarPrimative.Separator>) => {
+type ToolbarSeparatorProps = Omit<ComponentProps<typeof ToolbarPrimative.Separator>, 'asChild'>;
+
+const Separator = ({ className, ...props }: ToolbarSeparatorProps) => {
   return (
     <ToolbarPrimative.Separator {...props} asChild>
       <Box
@@ -127,10 +122,10 @@ const Separator = ({ className, ...props }: ComponentProps<typeof ToolbarPrimati
   );
 };
 
-const Link = ({
-  children,
-  ...props
-}: Omit<ComponentProps<typeof ToolbarPrimative.Link>, 'asChild'> & ComponentProps<typeof StrapiLink>) => {
+type ToolbarLinkProps = Omit<ComponentProps<typeof ToolbarPrimative.Link>, 'asChild'> &
+  ComponentProps<typeof StrapiLink>;
+
+const Link = ({ children, ...props }: ToolbarLinkProps) => {
   return (
     <ToolbarPrimative.Link asChild {...props}>
       <StrapiLink margin="auto 0">{children}</StrapiLink>
@@ -138,11 +133,10 @@ const Link = ({
   );
 };
 
-const Button = ({
-  className,
-  children,
-  ...props
-}: Omit<ComponentProps<typeof ToolbarPrimative.Button>, 'asChild'> & ComponentProps<typeof StrapiButton>) => {
+type ToolbarButtonProps = Omit<ComponentProps<typeof ToolbarPrimative.Button>, 'asChild'> &
+  ComponentProps<typeof StrapiButton>;
+
+const Button = ({ className, children, ...props }: ToolbarButtonProps) => {
   return (
     <ToolbarPrimative.Button asChild {...props}>
       <StrapiButton>{children}</StrapiButton>

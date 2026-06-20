@@ -1,29 +1,22 @@
-import { Children, isValidElement, useEffect, useMemo, useState } from 'react';
+import { Children, isValidElement, ReactElement, useEffect, useMemo, useState, cloneElement } from 'react';
 import { ToggleGroup } from 'radix-ui';
 
 // Components
-import { Typography } from '@strapi/design-system';
+import { Button, Grid } from '@strapi/design-system';
 
-// Hooks
-import { useDesignTokens } from '../../hooks';
+// Types
+import type { ComponentProps } from 'react';
 
-// Styles
-import styles from './SegmentedControl.module.scss';
-import { classCurried } from '../../utils/styles';
-
-const cn = classCurried(styles);
-
-type SegmentedControlRootProps = {
-  className?: HTMLElement['className'];
-  children?: React.ReactNode;
-  value?: string;
+type SegmentedControlRootProps = Omit<
+  ComponentProps<typeof ToggleGroup.Root>,
+  'type' | 'asChild' | 'onValueChange' | 'onChange'
+> & {
   defaultValue?: string;
+  value?: string;
   onChange?: (value: string) => void;
-  style?: React.CSSProperties;
 };
-const Root = ({ className, children, value: valueProp, defaultValue, onChange, style }: SegmentedControlRootProps) => {
-  useDesignTokens();
 
+const Root = ({ children, value: valueProp, defaultValue, onChange, ...props }: SegmentedControlRootProps) => {
   const firstValue = useMemo(() => {
     return Children.toArray(children)
       .map((child) => (isValidElement<{ value?: string }>(child) ? child.props.value : undefined))
@@ -52,42 +45,43 @@ const Root = ({ className, children, value: valueProp, defaultValue, onChange, s
     }
   };
 
+  const clonedChildren = Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      const childValue = (child.props as any).value;
+      const isActive = value === childValue;
+
+      return cloneElement(child as ReactElement<any>, { active: isActive });
+    }
+    return child;
+  });
+
   return (
-    <ToggleGroup.Root
-      value={value}
-      className={cn('segmented-control') + (className ? ` ${className}` : '')}
-      style={style}
-      type="single"
-      onValueChange={handleValueChange}
-    >
-      {children}
+    <ToggleGroup.Root asChild type="single" {...props} onValueChange={handleValueChange} value={value}>
+      <Grid.Root
+        background="neutral100"
+        borderColor="neutral200"
+        borderWidth="1px"
+        gap={1}
+        gridCols={clonedChildren?.length ?? 0}
+        hasRadius
+        padding={1}
+      >
+        {clonedChildren}
+      </Grid.Root>
     </ToggleGroup.Root>
   );
 };
 
-type SegmentedControlItemProps = {
-  className?: HTMLElement['className'];
-  value: string;
-  children: string;
-  style?: React.CSSProperties;
-  disabled?: boolean;
+type SegmentedControlItemProps = Omit<ComponentProps<typeof ToggleGroup.Item>, 'asChild'> & {
+  active?: boolean;
 };
-const Item = ({ className, value, children, style, disabled }: SegmentedControlItemProps) => {
+
+const Item = ({ active, children, ...props }: SegmentedControlItemProps) => {
   return (
-    <ToggleGroup.Item
-      disabled={disabled}
-      className={cn('segmented-control__item') + (className ? ` ${className}` : '')}
-      value={value}
-      style={style}
-    >
-      <Typography
-        variant="pi"
-        fontWeight="bold"
-        textTransform="uppercase"
-        textColor={disabled ? 'neutral400' : 'neutral600'}
-      >
+    <ToggleGroup.Item asChild {...props}>
+      <Button variant={active ? 'tertiary' : 'ghost'} style={active ? { pointerEvents: 'none' } : undefined}>
         {children}
-      </Typography>
+      </Button>
     </ToggleGroup.Item>
   );
 };
