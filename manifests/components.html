@@ -1394,7 +1394,7 @@ type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleI
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
-      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} &gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
         {children}
       &lt;/IconButton&gt;
     &lt;/ToolbarPrimative.ToggleItem&gt;
@@ -1406,15 +1406,7 @@ type ToolbarSeparatorProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.S
 const Separator = ({ className, ...props }: ToolbarSeparatorProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Separator {...props} asChild&gt;
-      &lt;Box
-        width=&quot;1px&quot;
-        marginLeft={2}
-        marginRight={2}
-        marginTop={1}
-        marginBottom={1}
-        background=&quot;neutral200&quot;
-        style={{ alignSelf: &#39;stretch&#39; }}
-      /&gt;
+      &lt;Box width=&quot;1px&quot; margin={1} background=&quot;neutral200&quot; flex=&quot;0 0 1px&quot; style={{ alignSelf: &#39;stretch&#39; }} /&gt;
     &lt;/ToolbarPrimative.Separator&gt;
   );
 };
@@ -1425,7 +1417,9 @@ type ToolbarLinkProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&g
 const Link = ({ children, ...props }: ToolbarLinkProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Link asChild {...props}&gt;
-      &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
+      &lt;StrapiLink marginTop=&quot;auto&quot; marginBottom=&quot;auto&quot;&gt;
+        {children}
+      &lt;/StrapiLink&gt;
     &lt;/ToolbarPrimative.Link&gt;
   );
 };
@@ -1478,45 +1472,50 @@ import { Toolbar } from "strapi-design-extended";</code></pre>
               
               <pre><code>const Default = (args) =&gt; {
   const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { Bold, Italic, StrikeThrough } from &#39;@strapi/icons&#39;;\n\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;\n      &lt;Bold /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;\n      &lt;Italic /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;\n      &lt;StrikeThrough /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;\n      &lt;AlignLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;\n      &lt;AlignCenter /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;\n      &lt;AlignRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;\n    Edited 2 hours ago\n  &lt;/Toolbar.Link&gt;\n  &lt;Toolbar.Button style={{ marginLeft: &#39;auto&#39; }}&gt;\n    Share\n  &lt;/Toolbar.Button&gt;\n&lt;/Toolbar.Root&gt;`;
+
+  const isDesktop = useSyncExternalStore(subscribe, () =&gt; mediaQuery.matches);
+
   return (
     &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
-      &lt;Toolbar.Root className=&quot;ToolbarRoot&quot; aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
+      &lt;Toolbar.Root aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
         &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
             &lt;Bold /&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
             &lt;Italic /&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
             &lt;StrikeThrough /&gt;
           &lt;/Toolbar.ToggleItem&gt;
         &lt;/Toolbar.ToggleGroup&gt;
-        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.Separator /&gt;
         &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
         &lt;/Toolbar.ToggleGroup&gt;
-        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
-        &lt;Toolbar.Link className=&quot;ToolbarLink&quot; href=&quot;#&quot; target=&quot;_blank&quot; style={{ marginRight: 10 }}&gt;
-          Edited 2 hours ago
-        &lt;/Toolbar.Link&gt;
-        &lt;Toolbar.Button className=&quot;ToolbarButton&quot; style={{ marginLeft: &#39;auto&#39; }}&gt;
-          Share
-        &lt;/Toolbar.Button&gt;
+        {isDesktop &amp;&amp; (
+          &lt;&gt;
+            &lt;Toolbar.Separator /&gt;
+            &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;
+              Edited 2 hours ago
+            &lt;/Toolbar.Link&gt;
+          &lt;/&gt;
+        )}
+        &lt;Toolbar.Button marginLeft=&quot;auto&quot;&gt;Share&lt;/Toolbar.Button&gt;
       &lt;/Toolbar.Root&gt;
       &lt;CodePreview code={code} /&gt;
     &lt;/div&gt;
@@ -1542,19 +1541,19 @@ import { Toolbar } from "strapi-design-extended";</code></pre>
                     value={alignment}
                     onValueChange={setAlignment}
                     aria-label=&quot;Text alignment&quot;&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
                         &lt;/svg&gt;
                     &lt;/Toolbar.ToggleItem&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
                         &lt;/svg&gt;
                     &lt;/Toolbar.ToggleItem&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
@@ -2037,7 +2036,7 @@ type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleI
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
-      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} &gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
         {children}
       &lt;/IconButton&gt;
     &lt;/ToolbarPrimative.ToggleItem&gt;
@@ -2049,15 +2048,7 @@ type ToolbarSeparatorProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.S
 const Separator = ({ className, ...props }: ToolbarSeparatorProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Separator {...props} asChild&gt;
-      &lt;Box
-        width=&quot;1px&quot;
-        marginLeft={2}
-        marginRight={2}
-        marginTop={1}
-        marginBottom={1}
-        background=&quot;neutral200&quot;
-        style={{ alignSelf: &#39;stretch&#39; }}
-      /&gt;
+      &lt;Box width=&quot;1px&quot; margin={1} background=&quot;neutral200&quot; flex=&quot;0 0 1px&quot; style={{ alignSelf: &#39;stretch&#39; }} /&gt;
     &lt;/ToolbarPrimative.Separator&gt;
   );
 };
@@ -2068,7 +2059,9 @@ type ToolbarLinkProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.Link&g
 const Link = ({ children, ...props }: ToolbarLinkProps) =&gt; {
   return (
     &lt;ToolbarPrimative.Link asChild {...props}&gt;
-      &lt;StrapiLink margin=&quot;auto 0&quot;&gt;{children}&lt;/StrapiLink&gt;
+      &lt;StrapiLink marginTop=&quot;auto&quot; marginBottom=&quot;auto&quot;&gt;
+        {children}
+      &lt;/StrapiLink&gt;
     &lt;/ToolbarPrimative.Link&gt;
   );
 };
@@ -2121,45 +2114,50 @@ import { Toolbar } from "strapi-design-extended";</code></pre>
               
               <pre><code>const Default = (args) =&gt; {
   const code = `import { Toolbar } from &#39;strapi-design-extended&#39;;\nimport { Bold, Italic, StrikeThrough } from &#39;@strapi/icons&#39;;\n\n&lt;Toolbar.Root aria-label=&quot;Formatting options&quot;&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;\n      &lt;Bold /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;\n      &lt;Italic /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;\n      &lt;StrikeThrough /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;\n    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;\n      &lt;AlignLeft /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;\n      &lt;AlignCenter /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;\n      &lt;AlignRight /&gt;\n    &lt;/Toolbar.ToggleItem&gt;\n  &lt;/Toolbar.ToggleGroup&gt;\n  &lt;Toolbar.Separator /&gt;\n  &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;\n    Edited 2 hours ago\n  &lt;/Toolbar.Link&gt;\n  &lt;Toolbar.Button style={{ marginLeft: &#39;auto&#39; }}&gt;\n    Share\n  &lt;/Toolbar.Button&gt;\n&lt;/Toolbar.Root&gt;`;
+
+  const isDesktop = useSyncExternalStore(subscribe, () =&gt; mediaQuery.matches);
+
   return (
     &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
-      &lt;Toolbar.Root className=&quot;ToolbarRoot&quot; aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
+      &lt;Toolbar.Root aria-label=&quot;Formatting options&quot; style={{ width: &#39;100%&#39; }}&gt;
         &lt;Toolbar.ToggleGroup type=&quot;multiple&quot; aria-label=&quot;Text formatting&quot;&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;bold&quot; label=&quot;Bold&quot;&gt;
             &lt;Bold /&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;italic&quot; label=&quot;Italic&quot;&gt;
             &lt;Italic /&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;strikethrough&quot; label=&quot;Strike through&quot;&gt;
             &lt;StrikeThrough /&gt;
           &lt;/Toolbar.ToggleItem&gt;
         &lt;/Toolbar.ToggleGroup&gt;
-        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
+        &lt;Toolbar.Separator /&gt;
         &lt;Toolbar.ToggleGroup type=&quot;single&quot; defaultValue=&quot;center&quot; aria-label=&quot;Text alignment&quot;&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
-          &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+          &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
             &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
               &lt;path d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
             &lt;/svg&gt;
           &lt;/Toolbar.ToggleItem&gt;
         &lt;/Toolbar.ToggleGroup&gt;
-        &lt;Toolbar.Separator className=&quot;ToolbarSeparator&quot; /&gt;
-        &lt;Toolbar.Link className=&quot;ToolbarLink&quot; href=&quot;#&quot; target=&quot;_blank&quot; style={{ marginRight: 10 }}&gt;
-          Edited 2 hours ago
-        &lt;/Toolbar.Link&gt;
-        &lt;Toolbar.Button className=&quot;ToolbarButton&quot; style={{ marginLeft: &#39;auto&#39; }}&gt;
-          Share
-        &lt;/Toolbar.Button&gt;
+        {isDesktop &amp;&amp; (
+          &lt;&gt;
+            &lt;Toolbar.Separator /&gt;
+            &lt;Toolbar.Link href=&quot;#&quot; target=&quot;_blank&quot;&gt;
+              Edited 2 hours ago
+            &lt;/Toolbar.Link&gt;
+          &lt;/&gt;
+        )}
+        &lt;Toolbar.Button marginLeft=&quot;auto&quot;&gt;Share&lt;/Toolbar.Button&gt;
       &lt;/Toolbar.Root&gt;
       &lt;CodePreview code={code} /&gt;
     &lt;/div&gt;
@@ -2185,19 +2183,19 @@ import { Toolbar } from "strapi-design-extended";</code></pre>
                     value={alignment}
                     onValueChange={setAlignment}
                     aria-label=&quot;Text alignment&quot;&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;left&quot; label=&quot;Left aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M384 128c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
                         &lt;/svg&gt;
                     &lt;/Toolbar.ToggleItem&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;center&quot; label=&quot;Center aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M448 128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32m96 128c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h384c17.7 0 32-14.3 32-32M96 512c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32H128c-17.7 0-32 14.3-32 32m352-128c0-17.7-14.3-32-32-32H224c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32&quot; /&gt;
                         &lt;/svg&gt;
                     &lt;/Toolbar.ToggleItem&gt;
-                    &lt;Toolbar.ToggleItem className=&quot;ToolbarToggleItem&quot; value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
+                    &lt;Toolbar.ToggleItem value=&quot;right&quot; label=&quot;Right aligned&quot;&gt;
                         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 640 640&quot; {...svgProps}&gt;
                             &lt;path
                                 d=&quot;M544 128c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32m0 256c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32s14.3-32 32-32h224c17.7 0 32 14.3 32 32M96 256c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32m448 256c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32&quot; /&gt;
