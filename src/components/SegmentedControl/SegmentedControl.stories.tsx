@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import SegmentedControl from './SegmentedControl';
 import { Button, Typography } from '@strapi/design-system';
+import useDesignTokens from '../../hooks/useDesignTokens';
 
 const meta: Meta<typeof SegmentedControl.Root> = {
   title: 'Components/SegmentedControl',
@@ -16,22 +17,27 @@ type Story = StoryObj<typeof SegmentedControl.Root>;
 
 const CodePreview = ({ code }: { code: string }) => {
   const [show, setShow] = useState(false);
+  const { color } = useDesignTokens();
+
   return (
-    <div style={{ marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
+    <div style={{ marginTop: '1.5rem', borderTop: `1px solid ${color('neutral200')}`, paddingTop: '1rem' }}>
       <Button variant="tertiary" onClick={() => setShow(!show)}>
         {show ? 'Hide Code' : 'Show Code'}
       </Button>
       {show && (
-        <pre style={{
-          marginTop: '1rem',
-          padding: '1rem',
-          background: '#f6f8fa',
-          borderRadius: '6px',
-          overflowX: 'auto',
-          fontSize: '13px',
-          fontFamily: 'monospace',
-          border: '1px solid #e1e4e8'
-        }}>
+        <pre
+          style={{
+            marginTop: '1rem',
+            padding: '1rem',
+            background: color('neutral100'),
+            color: color('neutral800'),
+            borderRadius: '6px',
+            overflowX: 'auto',
+            fontSize: '13px',
+            fontFamily: 'monospace',
+            border: `1px solid ${color('neutral200')}`,
+          }}
+        >
           <code>{code}</code>
         </pre>
       )}
@@ -88,7 +94,9 @@ export const WithDisabled: Story = {
       <div>
         <SegmentedControl.Root {...args} style={{ maxWidth: '550px' }}>
           <SegmentedControl.Item value="1">Active Option</SegmentedControl.Item>
-          <SegmentedControl.Item disabled value="2">Disabled Option</SegmentedControl.Item>
+          <SegmentedControl.Item disabled value="2">
+            Disabled Option
+          </SegmentedControl.Item>
           <SegmentedControl.Item value="3">Another Option</SegmentedControl.Item>
         </SegmentedControl.Root>
         <CodePreview code={code} />
@@ -103,7 +111,8 @@ export const AutoSelectsFirst: Story = {
     return (
       <div>
         <Typography variant="pi" style={{ display: 'block', marginBottom: '1rem' }}>
-          If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in this case, &ldquo;first&rdquo;).
+          If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in
+          this case, &ldquo;first&rdquo;).
         </Typography>
         <SegmentedControl.Root {...args} style={{ maxWidth: '550px' }}>
           <SegmentedControl.Item value="first">First Item</SegmentedControl.Item>

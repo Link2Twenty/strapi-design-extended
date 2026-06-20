@@ -1,8 +1,21 @@
-import React from 'react';
 import type { Preview } from '@storybook/react-vite';
-import { DesignSystemProvider, lightTheme } from '@strapi/design-system';
+import { DesignSystemProvider, darkTheme, lightTheme } from '@strapi/design-system';
 
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      name: 'Theme',
+      description: 'Global theme for components',
+      defaultValue: 'light',
+      toolbar: {
+        icon: 'sun',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
+        ],
+      },
+    },
+  },
   parameters: {
     controls: {
       matchers: {
@@ -19,8 +32,13 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => (
-      <DesignSystemProvider theme={lightTheme} locale="en">
+    (Story, context) => (
+      <DesignSystemProvider theme={context.globals.theme === 'dark' ? darkTheme : lightTheme} locale="en">
+        <style>{`
+          html, body {
+            background-color: var(--strapi-colors-neutral0);
+          }
+        `}</style>
         <Story />
       </DesignSystemProvider>
     ),

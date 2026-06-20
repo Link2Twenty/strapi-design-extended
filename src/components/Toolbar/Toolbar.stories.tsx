@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Toolbar from './Toolbar';
 import { Button, Typography } from '@strapi/design-system';
 import { ArrowLineLeft, ArrowLineRight, Bold, Italic, StrikeThrough } from '@strapi/icons';
+import useDesignTokens from '../../hooks/useDesignTokens';
 
 const meta: Meta<typeof Toolbar.Root> = {
   title: 'Components/Toolbar',
@@ -14,8 +15,10 @@ type Story = StoryObj<typeof Toolbar.Root>;
 
 const CodePreview = ({ code }: { code: string }) => {
   const [show, setShow] = useState(false);
+  const { color } = useDesignTokens();
+
   return (
-    <div style={{ marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
+    <div style={{ marginTop: '1.5rem', borderTop: `1px solid ${color('neutral200')}`, paddingTop: '1rem' }}>
       <Button variant="tertiary" onClick={() => setShow(!show)}>
         {show ? 'Hide Code' : 'Show Code'}
       </Button>
@@ -24,12 +27,13 @@ const CodePreview = ({ code }: { code: string }) => {
           style={{
             marginTop: '1rem',
             padding: '1rem',
-            background: '#f6f8fa',
+            background: color('neutral100'),
+            color: color('neutral800'),
             borderRadius: '6px',
             overflowX: 'auto',
             fontSize: '13px',
             fontFamily: 'monospace',
-            border: '1px solid #e1e4e8',
+            border: `1px solid ${color('neutral200')}`,
           }}
         >
           <code>{code}</code>
