@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
-import { DesignSystemProvider, lightTheme, Typography } from '@strapi/design-system';
+import { DesignSystemProvider, lightTheme, darkTheme, Typography } from '@strapi/design-system';
 import { Bold, Italic, StrikeThrough } from '@strapi/icons';
 
 import useDesignTokens from '../hooks/useDesignTokens';
@@ -10,9 +10,10 @@ import { SegmentedControl, Slider, Toolbar } from '../components';
 function App() {
   const [view, setView] = useState('1');
   const [value, setValue] = useState([75]);
+  const [theme, setTheme] = useState<boolean>(true);
 
   return (
-    <DesignSystemProvider theme={lightTheme} locale="en">
+    <DesignSystemProvider theme={theme ? lightTheme : darkTheme} locale="en">
       <DesignToken />
       <div style={{ display: 'flex', gap: '1rem', margin: '1rem', alignItems: 'center' }}>
         <Toolbar.Root className="ToolbarRoot" aria-label="Formatting options" style={{ width: '100%' }}>
@@ -49,8 +50,8 @@ function App() {
           <Toolbar.Link className="ToolbarLink" href="#" target="_blank" style={{ marginRight: 10 }}>
             Edited 2 hours ago
           </Toolbar.Link>
-          <Toolbar.Button className="ToolbarButton" style={{ marginLeft: 'auto' }}>
-            Share
+          <Toolbar.Button className="ToolbarButton" style={{ marginLeft: 'auto' }} onClick={() => setTheme(!theme)}>
+            Toggle Theme
           </Toolbar.Button>
         </Toolbar.Root>
       </div>
@@ -78,9 +79,9 @@ const DesignToken = () => {
   const { color } = useDesignTokens();
 
   return (
-    <div style={{ backgroundColor: color('danger500'), padding: '1rem' }}>
-      <Typography variant="epsilon" textColor="neutral0">
-        This box uses the danger500 color from the design tokens.
+    <div style={{ backgroundColor: color('success200'), padding: '1rem' }}>
+      <Typography variant="epsilon" textColor="neutral1000">
+        This box uses the success200 color from the design tokens.
       </Typography>
     </div>
   );
