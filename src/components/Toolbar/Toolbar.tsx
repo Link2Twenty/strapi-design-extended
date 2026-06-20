@@ -19,9 +19,27 @@ const Root = ({ children, ...props }: ToolbarRootProps) => {
   );
 };
 
-type ToggleGroupProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleGroup>, 'asChild' | 'onValueChange'> & {
-  onValueChange?: (value: string | string[]) => void;
+type ToggleGroupSingleProps = Omit<
+  ComponentProps<typeof ToolbarPrimative.ToggleGroup>,
+  'asChild' | 'onValueChange' | 'value' | 'defaultValue' | 'type'
+> & {
+  type: 'single';
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
 };
+
+type ToggleGroupMultipleProps = Omit<
+  ComponentProps<typeof ToolbarPrimative.ToggleGroup>,
+  'asChild' | 'onValueChange' | 'value' | 'defaultValue' | 'type'
+> & {
+  type: 'multiple';
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) => void;
+};
+
+type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 
 const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) => {
   const isSingle = type === 'single';
@@ -97,7 +115,7 @@ type ToggleItemProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleItem>, 
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) => {
   return (
     <ToolbarPrimative.ToggleItem asChild {...props}>
-      <IconButton label={label} variant={active ? 'tertiary' : 'ghost'}>
+      <IconButton label={label} variant={active ? 'tertiary' : 'ghost'} >
         {children}
       </IconButton>
     </ToolbarPrimative.ToggleItem>
