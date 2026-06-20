@@ -1141,7 +1141,10 @@ import { Slider } from "strapi-design-extended";</code></pre>
 
     return (
         &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;1rem&#39; }}&gt;
-            &lt;Slider defaultValue={[20]} label=&quot;Slider&quot; style={{ width: &#39;550px&#39; }} /&gt;
+            &lt;Slider
+                defaultValue={[20]}
+                label=&quot;Slider&quot;
+                style={{ width: &#39;550px&#39;, maxWidth: &#39;100%&#39; }} /&gt;
             &lt;CodePreview code={code} /&gt;
         &lt;/div&gt;
     );
@@ -1166,7 +1169,7 @@ import { Slider } from "strapi-design-extended";</code></pre>
                   setValue(val);
                   args.onValueChange?.(val);
                 }}
-                style={{ width: &#39;550px&#39; }}
+                style={{ width: &#39;550px&#39;, maxWidth: &#39;100%&#39; }}
                 label=&quot;Controlled Slider&quot; /&gt;
             &lt;div&gt;Value: {value[0]}&lt;/div&gt;
             &lt;CodePreview code={code} /&gt;
@@ -1193,7 +1196,7 @@ import { Slider } from "strapi-design-extended";</code></pre>
                   setValue(val);
                   args.onValueChange?.(val);
                 }}
-                style={{ width: &#39;550px&#39; }}
+                style={{ width: &#39;550px&#39;, maxWidth: &#39;100%&#39; }}
                 label=&quot;Range Slider&quot; /&gt;
             &lt;div&gt;Selected Range: {value[0]}- {value[1]}
             &lt;/div&gt;
@@ -1222,7 +1225,7 @@ import { Slider } from "strapi-design-extended";</code></pre>
                 min={0}
                 max={100}
                 label=&quot;Custom Step Slider&quot;
-                style={{ width: &#39;550px&#39; }} /&gt;
+                style={{ width: &#39;550px&#39;, maxWidth: &#39;100%&#39; }} /&gt;
             &lt;CodePreview code={code} /&gt;
         &lt;/div&gt;
     );
