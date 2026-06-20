@@ -115,7 +115,7 @@ type ToggleItemProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleItem>, 
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) => {
   return (
     <ToolbarPrimative.ToggleItem asChild {...props}>
-      <IconButton label={label} variant={active ? 'tertiary' : 'ghost'} >
+      <IconButton label={label} variant={active ? 'tertiary' : 'ghost'}>
         {children}
       </IconButton>
     </ToolbarPrimative.ToggleItem>
@@ -127,15 +127,7 @@ type ToolbarSeparatorProps = Omit<ComponentProps<typeof ToolbarPrimative.Separat
 const Separator = ({ className, ...props }: ToolbarSeparatorProps) => {
   return (
     <ToolbarPrimative.Separator {...props} asChild>
-      <Box
-        width="1px"
-        marginLeft={2}
-        marginRight={2}
-        marginTop={1}
-        marginBottom={1}
-        background="neutral200"
-        style={{ alignSelf: 'stretch' }}
-      />
+      <Box width="1px" margin={1} background="neutral200" flex="0 0 1px" style={{ alignSelf: 'stretch' }} />
     </ToolbarPrimative.Separator>
   );
 };
@@ -146,7 +138,9 @@ type ToolbarLinkProps = Omit<ComponentProps<typeof ToolbarPrimative.Link>, 'asCh
 const Link = ({ children, ...props }: ToolbarLinkProps) => {
   return (
     <ToolbarPrimative.Link asChild {...props}>
-      <StrapiLink margin="auto 0">{children}</StrapiLink>
+      <StrapiLink marginTop="auto" marginBottom="auto">
+        {children}
+      </StrapiLink>
     </ToolbarPrimative.Link>
   );
 };
