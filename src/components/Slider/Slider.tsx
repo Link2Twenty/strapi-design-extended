@@ -59,7 +59,7 @@ export default function Slider({
               borderWidth="1px"
               borderColor="neutral500"
               borderRadius={1}
-              style={{ outlineOffset: '-1px' }}
+              style={{ outlineOffset: '-1px', touchAction: 'none' }}
               cursor="pointer"
             />
           </SliderPrimative.Thumb>

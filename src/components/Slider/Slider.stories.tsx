@@ -50,7 +50,7 @@ export const Default: Story = {
     const code = `import { Slider } from 'strapi-design-extended';\n\n<Slider defaultValue={[20]} label="Slider" style={{ width: '550px' }} />`;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Slider {...args} defaultValue={[20]} label="Slider" style={{ width: '550px' }} />
+        <Slider {...args} defaultValue={[20]} label="Slider" style={{ width: '550px', maxWidth: '100%' }} />
         <CodePreview code={code} />
       </div>
     );
@@ -70,7 +70,7 @@ export const Controlled: Story = {
             setValue(val);
             args.onValueChange?.(val);
           }}
-          style={{ width: '550px' }}
+          style={{ width: '550px', maxWidth: '100%' }}
           label="Controlled Slider"
         />
         <div>Value: {value[0]}</div>
@@ -93,7 +93,7 @@ export const Range: Story = {
             setValue(val);
             args.onValueChange?.(val);
           }}
-          style={{ width: '550px' }}
+          style={{ width: '550px', maxWidth: '100%' }}
           label="Range Slider"
         />
         <div>
@@ -120,7 +120,7 @@ export const CustomStep: Story = {
           min={0}
           max={100}
           label="Custom Step Slider"
-          style={{ width: '550px' }}
+          style={{ width: '550px', maxWidth: '100%' }}
         />
         <CodePreview code={code} />
       </div>
