@@ -3,9 +3,19 @@ import { Toolbar as ToolbarPrimative } from 'radix-ui';
 import { Button as StrapiButton, Link as StrapiLink, IconButton } from '@strapi/design-system';
 
 type ToolbarRootProps = Omit<ComponentProps<typeof ToolbarPrimative.Root>, 'asChild'>;
-type ToggleGroupProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleGroup>, 'asChild' | 'onValueChange'> & {
-    onValueChange?: (value: string | string[]) => void;
+type ToggleGroupSingleProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleGroup>, 'asChild' | 'onValueChange' | 'value' | 'defaultValue' | 'type'> & {
+    type: 'single';
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
 };
+type ToggleGroupMultipleProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleGroup>, 'asChild' | 'onValueChange' | 'value' | 'defaultValue' | 'type'> & {
+    type: 'multiple';
+    value?: string[];
+    defaultValue?: string[];
+    onValueChange?: (value: string[]) => void;
+};
+type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 type ToggleItemProps = Omit<ComponentProps<typeof ToolbarPrimative.ToggleItem>, 'asChild'> & ComponentProps<typeof IconButton> & {
     active?: boolean;
 };

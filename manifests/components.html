@@ -1006,7 +1006,8 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
         &lt;div&gt;
             &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
                 &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;
-                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option
+                              &lt;/SegmentedControl.Item&gt;
                 &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;
             &lt;/SegmentedControl.Root&gt;
             &lt;CodePreview code={code} /&gt;
@@ -1026,7 +1027,8 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
 
     return (
         &lt;div&gt;
-            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in this case, “first”).
+            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in
+                          this case, “first”).
                         &lt;/Typography&gt;
             &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
                 &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;
@@ -1296,9 +1298,27 @@ const Root = ({ children, ...props }: ToolbarRootProps) =&gt; {
   );
 };
 
-type ToggleGroupProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;, &#39;asChild&#39; | &#39;onValueChange&#39;&gt; &amp; {
-  onValueChange?: (value: string | string[]) =&gt; void;
+type ToggleGroupSingleProps = Omit&lt;
+  ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;,
+  &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;value&#39; | &#39;defaultValue&#39; | &#39;type&#39;
+&gt; &amp; {
+  type: &#39;single&#39;;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) =&gt; void;
 };
+
+type ToggleGroupMultipleProps = Omit&lt;
+  ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;,
+  &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;value&#39; | &#39;defaultValue&#39; | &#39;type&#39;
+&gt; &amp; {
+  type: &#39;multiple&#39;;
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) =&gt; void;
+};
+
+type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 
 const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) =&gt; {
   const isSingle = type === &#39;single&#39;;
@@ -1374,7 +1394,7 @@ type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleI
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
-      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} &gt;
         {children}
       &lt;/IconButton&gt;
     &lt;/ToolbarPrimative.ToggleItem&gt;
@@ -1818,7 +1838,8 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
         &lt;div&gt;
             &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
                 &lt;SegmentedControl.Item value=&quot;1&quot;&gt;Active Option&lt;/SegmentedControl.Item&gt;
-                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option&lt;/SegmentedControl.Item&gt;
+                &lt;SegmentedControl.Item disabled value=&quot;2&quot;&gt;Disabled Option
+                              &lt;/SegmentedControl.Item&gt;
                 &lt;SegmentedControl.Item value=&quot;3&quot;&gt;Another Option&lt;/SegmentedControl.Item&gt;
             &lt;/SegmentedControl.Root&gt;
             &lt;CodePreview code={code} /&gt;
@@ -1838,7 +1859,8 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
 
     return (
         &lt;div&gt;
-            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in this case, “first”).
+            &lt;Typography variant=&quot;pi&quot; style={{ display: &#39;block&#39;, marginBottom: &#39;1rem&#39; }}&gt;If neither value nor defaultValue is specified, the SegmentedControl automatically selects the first item (in
+                          this case, “first”).
                         &lt;/Typography&gt;
             &lt;SegmentedControl.Root style={{ maxWidth: &#39;550px&#39; }}&gt;
                 &lt;SegmentedControl.Item value=&quot;first&quot;&gt;First Item&lt;/SegmentedControl.Item&gt;
@@ -1919,9 +1941,27 @@ const Root = ({ children, ...props }: ToolbarRootProps) =&gt; {
   );
 };
 
-type ToggleGroupProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;, &#39;asChild&#39; | &#39;onValueChange&#39;&gt; &amp; {
-  onValueChange?: (value: string | string[]) =&gt; void;
+type ToggleGroupSingleProps = Omit&lt;
+  ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;,
+  &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;value&#39; | &#39;defaultValue&#39; | &#39;type&#39;
+&gt; &amp; {
+  type: &#39;single&#39;;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) =&gt; void;
 };
+
+type ToggleGroupMultipleProps = Omit&lt;
+  ComponentProps&lt;typeof ToolbarPrimative.ToggleGroup&gt;,
+  &#39;asChild&#39; | &#39;onValueChange&#39; | &#39;value&#39; | &#39;defaultValue&#39; | &#39;type&#39;
+&gt; &amp; {
+  type: &#39;multiple&#39;;
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) =&gt; void;
+};
+
+type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 
 const ToggleGroup = ({ children, value: valueProp, defaultValue, onValueChange, type, ...props }: ToggleGroupProps) =&gt; {
   const isSingle = type === &#39;single&#39;;
@@ -1997,7 +2037,7 @@ type ToggleItemProps = Omit&lt;ComponentProps&lt;typeof ToolbarPrimative.ToggleI
 const ToggleItem = ({ children, label, active, ...props }: ToggleItemProps) =&gt; {
   return (
     &lt;ToolbarPrimative.ToggleItem asChild {...props}&gt;
-      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;}&gt;
+      &lt;IconButton label={label} variant={active ? &#39;tertiary&#39; : &#39;ghost&#39;} &gt;
         {children}
       &lt;/IconButton&gt;
     &lt;/ToolbarPrimative.ToggleItem&gt;
