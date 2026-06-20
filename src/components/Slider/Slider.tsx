@@ -1,14 +1,8 @@
+// Components
 import { Slider as SliderPrimative } from 'radix-ui';
+import { Box, Flex } from '@strapi/design-system';
 
-// Hooks
-import { useDesignTokens } from '../../hooks';
-
-// Styles
-import styles from './Slider.module.scss';
-import { classCurried } from '../../utils/styles';
-
-const cn = classCurried(styles);
-
+// Types
 type SliderProps = {
   value?: number[];
   defaultValue?: [number] | [number, number];
@@ -32,13 +26,12 @@ export default function Slider({
   style,
   value,
 }: SliderProps) {
-  useDesignTokens();
-
   const initialValue = value || defaultValue || [min];
 
   return (
     <SliderPrimative.Root
-      className={cn('slider') + (className ? ` ${className}` : '')}
+      asChild
+      className={className}
       value={value}
       defaultValue={initialValue}
       onValueChange={onValueChange}
@@ -47,12 +40,31 @@ export default function Slider({
       step={step}
       style={style}
     >
-      <SliderPrimative.Track className={cn('slider__track')}>
-        <SliderPrimative.Range className={cn('slider__range')} />
-      </SliderPrimative.Track>
-      {initialValue.map((_, index) => (
-        <SliderPrimative.Thumb key={index} className={cn('slider__thumb')} aria-label={label} />
-      ))}
+      <Flex position="relative" alignItems="center" justifyContent="center" width="200px" height="2rem">
+        <SliderPrimative.Track asChild>
+          <Box position="relative" flex="1 0 0" height="1rem" background="neutral200" borderRadius={1}>
+            <SliderPrimative.Range asChild>
+              <Box position="absolute" background="primary600" borderRadius={1} height="100%" />
+            </SliderPrimative.Range>
+          </Box>
+        </SliderPrimative.Track>
+        {initialValue.map((_, index) => (
+          <SliderPrimative.Thumb key={index} aria-label={label} asChild>
+            <Box
+              tag="span"
+              display="block"
+              width="1rem"
+              height="2rem"
+              background="neutral0"
+              borderWidth="1px"
+              borderColor="neutral500"
+              borderRadius={1}
+              style={{ outlineOffset: '-1px' }}
+              cursor="pointer"
+            />
+          </SliderPrimative.Thumb>
+        ))}
+      </Flex>
     </SliderPrimative.Root>
   );
 }
