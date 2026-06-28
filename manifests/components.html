@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">3/4 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">4/4 infos</a><a class="filter-pill err" data-k="story-errors" href="#filter-story-errors">1/12 story errors</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">3/5 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">5/5 infos</a><a class="filter-pill err" data-k="story-errors" href="#filter-story-errors">1/15 story errors</a></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.1s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.2s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1051,14 +1051,218 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
   no-story-error
   no-doc-error"
   role="listitem"
+  aria-label="Sheet.Root">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Sheet.Root</h2>
+      <div class="badges">
+        <label for="c-2-components-sheet-props" class="badge ok as-toggle">8 prop types</label>
+        <label for="c-2-components-sheet-info" class="badge info as-toggle">1 info</label>
+        <label for="c-2-components-sheet-stories" class="badge ok as-toggle">3 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/Sheet/Sheet.stories.tsx">components-sheet · ./src/components/Sheet/Sheet.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-2-components-sheet-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-2-components-sheet-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-2-components-sheet-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">8 prop types</span>
+            </div>
+            <pre><code>Component: src/components/Sheet/Sheet.tsx::SheetDialog</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * The action buttons of the sheet dialog. If not provided, no action buttons will be displayed.
+ */
+actionButtons?: React.ReactNode
+
+/**
+ * The content of the sheet dialog. If not provided, no content will be displayed.
+ */
+children?: React.ReactNode
+
+/**
+ * The height of the sheet dialog (top or bottom). If not provided, the default height will be used.
+ */
+height?: React.CSSProperties[&#39;height&#39;]
+
+/**
+ * Callback function that is called when the sheet dialog is closed. If not provided, no callback will be called.
+ */
+onClose?: () =&gt; void
+
+/**
+ * Whether the sheet dialog is open or not. If not provided, the sheet dialog will be uncontrolled.
+ */
+open?: boolean
+
+/**
+ * The side of the sheet dialog. If not provided, the default side will be used.
+ */
+side?: &#39;top&#39; | &#39;right&#39; | &#39;bottom&#39; | &#39;left&#39;
+
+/**
+ * The title of the sheet dialog. If not provided, no title will be displayed.
+ */
+title?: string
+
+/**
+ * The width of the sheet dialog (left or right). If not provided, the default width will be used.
+ */
+width?: React.CSSProperties[&#39;width&#39;]</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Typography } from "@strapi/design-system";
+import { Sheet, SheetDialog } from "strapi-design-extended";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; {
+    const code = `import { Sheet } from &#39;strapi-design-extended&#39;;import { Button, Typography } from &#39;@strapi/design-system&#39;;\n\n&lt;Sheet.Root&gt;\n  &lt;Sheet.Trigger&gt;Open&lt;/Sheet.Trigger&gt;\n  &lt;Sheet.Content&gt;\n    &lt;Sheet.Title&gt;Sheet Title&lt;/Sheet.Title&gt;\n    &lt;Sheet.Body&gt;\n      &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;\n    &lt;/Sheet.Body&gt;\n    &lt;Sheet.Footer&gt;\n      &lt;Sheet.Close asChild&gt;\n        &lt;Button variant=&quot;secondary&quot;&gt;Close&lt;/Button&gt;\n      &lt;/Sheet.Close&gt;\n    &lt;/Sheet.Footer&gt;\n  &lt;/Sheet.Content&gt;\n&lt;/Sheet.Root&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;Sheet.Root&gt;
+                &lt;Sheet.Trigger&gt;Open&lt;/Sheet.Trigger&gt;
+                &lt;Sheet.Content&gt;
+                    &lt;Sheet.Title&gt;Sheet Title&lt;/Sheet.Title&gt;
+                    &lt;Sheet.Body&gt;
+                        &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;
+                    &lt;/Sheet.Body&gt;
+                    &lt;Sheet.Footer&gt;
+                        &lt;Sheet.Close asChild&gt;
+                            &lt;Button variant=&quot;secondary&quot;&gt;Close&lt;/Button&gt;
+                        &lt;/Sheet.Close&gt;
+                    &lt;/Sheet.Footer&gt;
+                &lt;/Sheet.Content&gt;
+            &lt;/Sheet.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controlled = () =&gt; {
+    const [open, setOpen] = useState(false);
+    const code = `import { Sheet } from &#39;strapi-design-extended&#39;;\nimport { Button, Typography } from &#39;@strapi/design-system&#39;;\n\nconst [open, setOpen] = useState(false);\n\n&lt;&gt;\n  &lt;Button onClick={() =&gt; setOpen(true)}&gt;Open&lt;/Button&gt;\n  &lt;Sheet.Root open={open} onOpenChange={setOpen}&gt;\n    &lt;Sheet.Content&gt;\n      &lt;Sheet.Title&gt;Sheet Title&lt;/Sheet.Title&gt;\n      &lt;Sheet.Body&gt;\n        &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;\n      &lt;/Sheet.Body&gt;\n      &lt;Sheet.Footer&gt;\n        &lt;Button variant=&quot;secondary&quot; onClick={() =&gt; setOpen(false)}&gt;\n          Close\n        &lt;/Button&gt;\n      &lt;/Sheet.Footer&gt;\n    &lt;/Sheet.Content&gt;\n  &lt;/Sheet.Root&gt;\n&lt;/&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;Button onClick={() =&gt; setOpen(true)}&gt;Open&lt;/Button&gt;
+            &lt;Sheet.Root open={open} onOpenChange={setOpen}&gt;
+                &lt;Sheet.Content&gt;
+                    &lt;Sheet.Title&gt;Sheet Title&lt;/Sheet.Title&gt;
+                    &lt;Sheet.Body&gt;
+                        &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;
+                    &lt;/Sheet.Body&gt;
+                    &lt;Sheet.Footer&gt;
+                        &lt;Button variant=&quot;secondary&quot; onClick={() =&gt; setOpen(false)}&gt;Close
+                                          &lt;/Button&gt;
+                    &lt;/Sheet.Footer&gt;
+                &lt;/Sheet.Content&gt;
+            &lt;/Sheet.Root&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Simplified</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Simplified = () =&gt; {
+    const [open, setOpen] = useState(false);
+    const code = `import { SheetDialog } from &#39;strapi-design-extended&#39;;\nimport { Button, Typography } from &#39;@strapi/design-system&#39;;\n\nconst [open, setOpen] = useState(false);\n\n&lt;&gt;\n  &lt;Button onClick={() =&gt; setOpen(true)}&gt;Open&lt;/Button&gt;\n  &lt;SheetDialog\n    open={open}\n    onClose={() =&gt; setOpen(false)}\n    title=&quot;Sheet Title&quot;\n    actionButtons={&lt;Button variant=&quot;secondary&quot; onClick={() =&gt; setOpen(false)}&gt;Close&lt;/Button&gt;}\n  &gt;\n    &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;\n  &lt;/SheetDialog&gt;\n&lt;/&gt;`;
+
+    return (
+        &lt;div&gt;
+            &lt;Button onClick={() =&gt; setOpen(true)}&gt;Open&lt;/Button&gt;
+            &lt;SheetDialog
+                open={open}
+                onClose={() =&gt; setOpen(false)}
+                title=&quot;Sheet Title&quot;
+                actionButtons={
+                  &lt;Button variant=&quot;secondary&quot; onClick={() =&gt; setOpen(false)}&gt;
+                    Close
+                  &lt;/Button&gt;
+                }&gt;
+                &lt;Typography variant=&quot;pi&quot;&gt;This is the content of the sheet.&lt;/Typography&gt;
+            &lt;/SheetDialog&gt;
+            &lt;CodePreview code={code} /&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
   aria-label="Slider">
   <div class="head">
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Slider</h2>
       <div class="badges">
-        <label for="c-2-components-slider-props" class="badge ok as-toggle">9 prop types</label>
-        <label for="c-2-components-slider-info" class="badge info as-toggle">1 info</label>
-        <label for="c-2-components-slider-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-3-components-slider-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-3-components-slider-info" class="badge info as-toggle">1 info</label>
+        <label for="c-3-components-slider-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -1071,11 +1275,11 @@ import { SegmentedControl } from "strapi-design-extended";</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-2-components-slider-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-2-components-slider-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-3-components-slider-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-3-components-slider-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-2-components-slider-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-3-components-slider-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -1248,9 +1452,9 @@ import { Slider } from "strapi-design-extended";</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-err"></span> Toolbar.Root</h2>
       <div class="badges">
-        <label for="c-3-components-toolbar-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-3-components-toolbar-info" class="badge info as-toggle">1 info</label>
-        <label for="c-3-components-toolbar-stories" class="badge ok as-toggle">3 stories</label>
+        <label for="c-4-components-toolbar-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-4-components-toolbar-info" class="badge info as-toggle">1 info</label>
+        <label for="c-4-components-toolbar-stories" class="badge ok as-toggle">3 stories</label>
         
         
       </div>
@@ -1262,9 +1466,9 @@ import { Slider } from "strapi-design-extended";</code></pre>
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-3-components-toolbar-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-3-components-toolbar-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-3-components-toolbar-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-4-components-toolbar-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-4-components-toolbar-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-4-components-toolbar-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
   

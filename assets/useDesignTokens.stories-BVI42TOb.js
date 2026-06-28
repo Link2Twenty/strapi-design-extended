@@ -1,0 +1,15 @@
+import{i as e,s as t}from"./preload-helper-CT_b8DTk.js";import{B as n,Gt as r,l as i,o as a,t as o}from"./iframe-BM9vcPRP.js";import{r as s,t as c}from"./useDesignTokens-UWpXdrOz.js";var l=e((()=>{c()})),u,d,f,p,m,h,g;e((()=>{l(),a(),u=t(r()),d=n(),f=({code:e})=>{let[t,n]=(0,u.useState)(!1);return(0,d.jsxs)(`div`,{style:{marginTop:`1.5rem`,borderTop:`1px solid #eee`,paddingTop:`1rem`},children:[(0,d.jsx)(i,{variant:`tertiary`,onClick:()=>n(!t),children:t?`Hide Code`:`Show Code`}),t&&(0,d.jsx)(`pre`,{style:{marginTop:`1rem`,padding:`1rem`,background:`#f6f8fa`,borderRadius:`6px`,overflowX:`auto`,fontSize:`13px`,fontFamily:`monospace`,border:`1px solid #e1e4e8`},children:(0,d.jsx)(`code`,{children:e})})]})},p=()=>{let e=s();if(!e||!e.theme)return(0,d.jsx)(o,{children:`Loading design system context styled-theme...`});let t=String(e.color(`danger500`)),n=String(e.color(`success600`)),r=String(e.space(`4`));return(0,d.jsxs)(`div`,{style:{padding:`1rem`,display:`flex`,flexDirection:`column`,gap:`1rem`},children:[(0,d.jsx)(o,{variant:`beta`,children:`useDesignTokens API`}),(0,d.jsx)(o,{variant:`pi`,children:"This renders styled-components tokens retrieved dynamically, while simultaneously registering high-performance CSS custom property variables on `document.head` (e.g. `--strapi-colors-neutral0`)."}),(0,d.jsxs)(`div`,{style:{display:`grid`,gridTemplateColumns:`1fr 1fr`,gap:`1rem`},children:[(0,d.jsxs)(`div`,{style:{border:`1px solid #ccc`,padding:`1rem`,borderRadius:`4px`},children:[(0,d.jsx)(o,{variant:`delta`,children:`Sample Color Getter`}),(0,d.jsxs)(`div`,{style:{display:`flex`,gap:`0.5rem`,alignItems:`center`,marginTop:`0.5rem`},children:[(0,d.jsx)(`div`,{style:{width:`20px`,height:`20px`,backgroundColor:t,borderRadius:`50%`}}),(0,d.jsxs)(o,{children:[`tokens.color('danger500'): `,t]})]}),(0,d.jsxs)(`div`,{style:{display:`flex`,gap:`0.5rem`,alignItems:`center`,marginTop:`0.5rem`},children:[(0,d.jsx)(`div`,{style:{width:`20px`,height:`20px`,backgroundColor:n,borderRadius:`50%`}}),(0,d.jsxs)(o,{children:[`tokens.color('success600'): `,n]})]})]}),(0,d.jsxs)(`div`,{style:{border:`1px solid #ccc`,padding:`1rem`,borderRadius:`4px`},children:[(0,d.jsx)(o,{variant:`delta`,children:`Spacing and Borders`}),(0,d.jsx)(`div`,{children:(0,d.jsxs)(o,{style:{marginTop:`0.5rem`},children:[`tokens.space(4): `,r]})})]})]}),(0,d.jsx)(f,{code:`import { useDesignTokens } from 'strapi-design-extended';
+import { Typography } from '@strapi/design-system';
+
+function CustomComponent() {
+  const tokens = useDesignTokens();
+  
+  return (
+    <div style={{ 
+      backgroundColor: tokens.color('danger500'), 
+      padding: tokens.space('4') 
+    }}>
+      <Typography textColor="neutral0">Styled content</Typography>
+    </div>
+  );
+}`})]})},m={title:`Hooks/useDesignTokens`,component:p},h={},h.parameters={...h.parameters,docs:{...h.parameters?.docs,source:{originalSource:`{}`,...h.parameters?.docs?.source}}},g=[`Default`]}))();export{h as Default,g as __namedExportsOrder,m as default};
