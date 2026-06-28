@@ -1,11 +1,21 @@
 import { useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
-import { DesignSystemProvider, lightTheme, darkTheme, Typography } from '@strapi/design-system';
+import {
+  DesignSystemProvider,
+  lightTheme,
+  darkTheme,
+  Typography,
+  Button,
+  Flex,
+  Field,
+  SingleSelect,
+  SingleSelectOption,
+} from '@strapi/design-system';
 import { Bold, Italic, StrikeThrough } from '@strapi/icons';
 
 import useDesignTokens from '../hooks/useDesignTokens';
-import { SegmentedControl, Slider, Toolbar } from '../components';
+import { SegmentedControl, Sheet, Slider, Toolbar } from '../components';
 
 function App() {
   const [view, setView] = useState('1');
@@ -71,6 +81,39 @@ function App() {
           Selected value: {value[0]}
         </Typography>
       </div>
+
+      <Sheet.Root>
+        <Sheet.Trigger>Open</Sheet.Trigger>
+        <Sheet.Content width="400px">
+          <Sheet.Title>Confirmation</Sheet.Title>
+          <Sheet.Body>
+            <Field.Root width="100%">
+              <Field.Label>What is your favourite fruit?</Field.Label>
+              <SingleSelect placeholder="Pick a fruit...">
+                <SingleSelectOption value="apple">Apple</SingleSelectOption>
+                <SingleSelectOption value="avocado">Avocado</SingleSelectOption>
+                <SingleSelectOption value="banana">Banana</SingleSelectOption>
+                <SingleSelectOption value="kiwi">Kiwi</SingleSelectOption>
+                <SingleSelectOption value="mango">Mango</SingleSelectOption>
+                <SingleSelectOption value="orange">Orange</SingleSelectOption>
+                <SingleSelectOption value="strawberry">Strawberry</SingleSelectOption>
+              </SingleSelect>
+            </Field.Root>
+          </Sheet.Body>
+          <Sheet.Footer>
+            <Flex width="100%" gap={3}>
+              <Sheet.Close asChild>
+                <Button fullWidth variant="tertiary">
+                  Cancel
+                </Button>
+              </Sheet.Close>
+              <Button fullWidth variant="success-light">
+                Confirm
+              </Button>
+            </Flex>
+          </Sheet.Footer>
+        </Sheet.Content>
+      </Sheet.Root>
     </DesignSystemProvider>
   );
 }
