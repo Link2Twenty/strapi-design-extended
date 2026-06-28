@@ -33,37 +33,158 @@ const Portal = (props: React.ComponentProps<typeof SheetPrimitive.Portal>) => {
 
 const overlayFadeIn = keyframes`
     from { opacity: 0; }
-    to { opacity: 0.2; }
+    to { opacity: 1; }
   `;
 
 const Overlay = styled(SheetPrimitive.Overlay)`
-  background: ${(props) => setOpacity(props.theme.colors.neutral800, 0.2)};
-  position: fixed;
-  inset: 0;
-  z-index: ${(props) => props.theme.zIndices.overlay};
-  will-change: opacity;
+  &[data-state='open'] {
+    background: ${(props) => setOpacity(props.theme.colors.neutral800, 0.2)};
+    position: fixed;
+    inset: 0;
+    z-index: ${(props) => props.theme.zIndices.overlay};
+    will-change: opacity;
 
-  @media (prefers-reduced-motion: no-preference) {
-    animation: ${overlayFadeIn} ${(props) => props.theme.motion.timings['200']}
-      ${(props) => props.theme.motion.easings.authenticMotion};
+    @media (prefers-reduced-motion: no-preference) {
+      animation-name: ${overlayFadeIn};
+      animation-duration: ${(props) => props.theme.motion.timings['200']};
+      animation-timing-function: ${(props) => props.theme.motion.easings.easeInOutCubic};
+    }
   }
 `;
 
-const StyledContent = styled(Grid.Root)`
+const contentShow = {
+  left: keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`,
+  top: keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`,
+  right: keyframes`
+	from {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}`,
+  bottom: keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`,
+  reverse: {
+    left: keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+`,
+    top: keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
 
+  }
+`,
+    right: keyframes`
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+}`,
+    bottom: keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+`,
+  },
+};
+
+const StyledContent = styled(Grid.Root)`
+  will-change: transform, opacity;
+  animation-duration: ${(props) => props.theme.motion.timings['200']};
+  animation-timing-function: ${(props) => props.theme.motion.easings.easeInOutCubic};
+
+  &[data-side='top'] {
+    animation-name: ${contentShow.top};
+
+    &[data-state='closed'] {
+      animation-name: ${contentShow.reverse.top};
+    }
+  }
+
+  &[data-side='bottom'] {
+    animation-name: ${contentShow.bottom};
+
+    &[data-state='closed'] {
+      animation-name: ${contentShow.reverse.bottom};
+    }
+  }
+
+  &[data-side='left'] {
+    animation-name: ${contentShow.left};
+
+    &[data-state='closed'] {
+      animation-name: ${contentShow.reverse.left};
+    }
+  }
+
+  &[data-side='right'] {
+    animation-name: ${contentShow.right};
+
+    &[data-state='closed'] {
+      animation-name: ${contentShow.reverse.right};
+    }
+  }
 `;
 
 const Content = ({
   className,
   children,
-  width = '500px',
+  width = '440px',
   height = '600px',
   side = 'right',
-  showCloseButton = true,
   ...props
 }: Omit<React.ComponentProps<typeof SheetPrimitive.Content>, 'asChild'> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
-  showCloseButton?: boolean;
 } & React.ComponentProps<typeof Flex>) => {
   return (
     <Portal>
@@ -94,7 +215,17 @@ const Content = ({
 };
 
 const Body = (props: React.ComponentProps<typeof Grid.Item>) => {
-  return <Grid.Item {...props} padding={6} width="100%" height="100%" margin={0} alignItems="none" overflow="auto" />;
+  return (
+    <Grid.Item
+      {...props}
+      padding={6}
+      width="100%"
+      height="100%"
+      margin={0}
+      overflow="auto"
+      style={{ display: 'block' }}
+    />
+  );
 };
 
 const StyledFooter = styled(Grid.Item)`
@@ -121,6 +252,62 @@ const Title = (
         </StyledTitle>
       </SheetPrimitive.Title>
     </Grid.Item>
+  );
+};
+
+type SheetDialogProps = {
+  /**
+   * The title of the sheet dialog. If not provided, no title will be displayed.
+   */
+  title?: string;
+  /**
+   * Whether the sheet dialog is open or not. If not provided, the sheet dialog will be uncontrolled.
+   */
+  open?: boolean;
+  /**
+   * The width of the sheet dialog (left or right). If not provided, the default width will be used.
+   */
+  width?: React.CSSProperties['width'];
+  /**
+   * The height of the sheet dialog (top or bottom). If not provided, the default height will be used.
+   */
+  height?: React.CSSProperties['height'];
+  /**
+   * The content of the sheet dialog. If not provided, no content will be displayed.
+   */
+  children?: React.ReactNode;
+  /**
+   * Callback function that is called when the sheet dialog is closed. If not provided, no callback will be called.
+   */
+  onClose?: () => void;
+  /**
+   * The action buttons of the sheet dialog. If not provided, no action buttons will be displayed.
+   */
+  actionButtons?: React.ReactNode;
+  /**
+   * The side of the sheet dialog. If not provided, the default side will be used.
+   */
+  side?: 'top' | 'right' | 'bottom' | 'left';
+};
+
+export const SheetDialog = ({
+  title,
+  open,
+  children,
+  width,
+  height,
+  onClose,
+  actionButtons,
+  side,
+}: SheetDialogProps) => {
+  return (
+    <Root open={open} onOpenChange={(state) => !state && onClose?.()}>
+      <Content side={side} width={width} height={height}>
+        {title && <Title>{title}</Title>}
+        <Body>{children}</Body>
+        {actionButtons && <Footer>{actionButtons}</Footer>}
+      </Content>
+    </Root>
   );
 };
 

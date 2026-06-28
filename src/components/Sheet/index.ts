@@ -1,1 +1,1 @@
-export { default } from './Sheet';
+export { default, SheetDialog } from './Sheet';
