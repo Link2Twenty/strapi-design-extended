@@ -18,7 +18,10 @@ export default defineConfig({
       name: 'StrapiDesignExtended',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'styled-components', '@strapi/design-system'],
+      external: (id) =>
+        ['react', 'react-dom', 'styled-components', '@strapi/design-system', 'radix-ui'].some(
+          (dep) => id === dep || id.startsWith(`${dep}/`),
+        ),
       output: [
         {
           format: 'es',
