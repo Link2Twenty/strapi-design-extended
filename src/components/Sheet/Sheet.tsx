@@ -144,7 +144,7 @@ const StyledContent = styled(Grid.Root)`
   animation-timing-function: ${(props) => props.theme.motion.easings.easeInOutCubic};
   grid-template-rows: 1fr;
 
-  &[data-header='true'] {
+  &[data-title='true'] {
     grid-template-rows: auto 1fr;
 
     &[data-footer='true'] {
@@ -152,7 +152,7 @@ const StyledContent = styled(Grid.Root)`
     }
   }
 
-  &[data-footer='false'][data-footer='true'] {
+  &[data-title='false'][data-footer='true'] {
     grid-template-rows: 1fr auto;
   }
 
