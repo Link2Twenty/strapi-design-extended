@@ -1,6 +1,6 @@
 {
   "name": "strapi-design-extended",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "commonjs",
   "description": "Build upon the @strapi/design-system to add a few more components",
   "main": "dist/index.js",
