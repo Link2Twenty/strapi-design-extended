@@ -16,23 +16,14 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'StrapiDesignExtended',
+      fileName: 'index',
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: (id) =>
         ['react', 'react-dom', 'styled-components', '@strapi/design-system', 'radix-ui'].some(
           (dep) => id === dep || id.startsWith(`${dep}/`),
         ),
-      output: [
-        {
-          format: 'es',
-          entryFileNames: 'index.mjs',
-        },
-        {
-          format: 'cjs',
-          entryFileNames: 'index.js',
-          exports: 'named',
-        },
-      ],
     },
   },
 });

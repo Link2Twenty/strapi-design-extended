@@ -1,17 +1,17 @@
 {
   "name": "strapi-design-extended",
   "version": "0.0.7",
-  "type": "commonjs",
+  "type": "module",
   "description": "Build upon the @strapi/design-system to add a few more components",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
