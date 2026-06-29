@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
@@ -18,26 +18,17 @@ export default defineConfig({
       name: 'StrapiDesignExtended',
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'styled-components',
-        '@strapi/design-system',
-      ],
+      external: ['react', 'react-dom', 'styled-components', '@strapi/design-system'],
       output: [
         {
           format: 'es',
           entryFileNames: 'index.mjs',
         },
         {
-          format: 'es',
-          entryFileNames: 'index.esm.js',
-        },
-        {
           format: 'cjs',
           entryFileNames: 'index.js',
           exports: 'named',
-        }
+        },
       ],
     },
   },

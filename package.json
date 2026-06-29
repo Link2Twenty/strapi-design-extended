@@ -4,7 +4,7 @@
   "type": "commonjs",
   "description": "Build upon the @strapi/design-system to add a few more components",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -71,7 +71,7 @@
     "storybook": "^10.4.6",
     "typescript": "^6.0.3",
     "vite": "^8.1.0",
-    "vite-plugin-dts": "^3.7.2",
+    "vite-plugin-dts": "^5.0.3",
     "vitest": "^4.1.9"
   }
 }
