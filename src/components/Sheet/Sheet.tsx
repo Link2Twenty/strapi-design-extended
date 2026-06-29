@@ -1,4 +1,4 @@
-import * as SheetPrimitive from '@radix-ui/react-dialog';
+import { Dialog as SheetPrimitive } from 'radix-ui';
 
 // Components
 import { Button, Flex, Grid, setOpacity, Typography } from '@strapi/design-system';
@@ -142,6 +142,19 @@ const StyledContent = styled(Grid.Root)`
   will-change: transform, opacity;
   animation-duration: ${(props) => props.theme.motion.timings['200']};
   animation-timing-function: ${(props) => props.theme.motion.easings.easeInOutCubic};
+  grid-template-rows: 1fr;
+
+  &[data-header='true'] {
+    grid-template-rows: auto 1fr;
+
+    &[data-footer='true'] {
+      grid-template-rows: auto 1fr auto;
+    }
+  }
+
+  &[data-footer='false'][data-footer='true'] {
+    grid-template-rows: 1fr auto;
+  }
 
   &[data-side='top'] {
     animation-name: ${contentShow.top};
@@ -177,19 +190,27 @@ const StyledContent = styled(Grid.Root)`
 `;
 
 const Content = ({
-  className,
   children,
   width = '440px',
   height = '600px',
   side = 'right',
+  hasTitle = false,
+  hasFooter = false,
   ...props
-}: Omit<React.ComponentProps<typeof SheetPrimitive.Content>, 'asChild'> & {
+}: Omit<React.ComponentProps<typeof SheetPrimitive.Content>, 'asChild' | 'onCloseAutoFocus'> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
+  hasTitle?: boolean;
+  hasFooter?: boolean;
 } & React.ComponentProps<typeof Flex>) => {
   return (
     <Portal>
       <Overlay />
-      <SheetPrimitive.Content data-side={side} className={className} {...props} asChild>
+      <SheetPrimitive.Content
+        data-side={side}
+        {...props}
+        asChild
+        onCloseAutoFocus={() => (document.body.style.pointerEvents = '')}
+      >
         <StyledContent
           gap={2}
           gridCols={1}
@@ -205,7 +226,8 @@ const Content = ({
           maxWidth={side === 'top' || side === 'bottom' ? '100%' : '98%'}
           height={side === 'left' || side === 'right' ? '100%' : height}
           maxHeight={side === 'left' || side === 'right' ? '100%' : '98%'}
-          style={{ gridTemplateRows: 'auto 1fr auto' }}
+          data-footer={hasFooter}
+          data-title={hasTitle}
         >
           {children}
         </StyledContent>
@@ -302,7 +324,7 @@ export const SheetDialog = ({
 }: SheetDialogProps) => {
   return (
     <Root open={open} onOpenChange={(state) => !state && onClose?.()}>
-      <Content side={side} width={width} height={height}>
+      <Content side={side} width={width} height={height} hasTitle={!!title} hasFooter={!!actionButtons}>
         {title && <Title>{title}</Title>}
         <Body>{children}</Body>
         {actionButtons && <Footer>{actionButtons}</Footer>}

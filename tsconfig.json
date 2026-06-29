@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -21,5 +21,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": ["src/playground", "dist", "src/**/*.stories.ts", "src/**/*.stories.tsx"]
+  "exclude": ["node_modules", "dist", "src/playground", "src/**/*.stories.ts", "src/**/*.stories.tsx"]
 }

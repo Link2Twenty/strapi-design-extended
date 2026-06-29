@@ -1,5 +1,5 @@
 import { Children, isValidElement, ReactElement, useEffect, useMemo, useState, cloneElement } from 'react';
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
+import { ToggleGroup } from 'radix-ui';
 
 // Components
 import { Button, Grid } from '@strapi/design-system';

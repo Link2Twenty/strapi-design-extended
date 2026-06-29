@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, isValidElement, Children } from 'react';
-import * as ToolbarPrimative from '@radix-ui/react-toolbar';
+import { Toolbar as ToolbarPrimative } from 'radix-ui';
 
 // Components
 import { Button as StrapiButton, Link as StrapiLink, IconButton, Flex, Box } from '@strapi/design-system';

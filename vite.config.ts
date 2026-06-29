@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-// @ts-expect-error - vite-plugin-dts has an invalid export assignment in its type definitions
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
 
@@ -8,9 +7,10 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      insertTypesEntry: true,
+      tsconfigPath: './tsconfig.build.json',
+      rollupTypes: true,
       include: ['src'],
-      exclude: ['src/playground/**', 'src/**/*.stories.ts', 'src/**/*.stories.tsx'],
+      exclude: ['src/playground/**', 'src/**/*.stories.*'],
     }),
   ],
   build: {
@@ -21,10 +21,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: (id) =>
-        ['react', 'react-dom', 'styled-components', '@strapi/design-system'].some(
-          (dep) => id === dep || id.startsWith(`${dep}/`),
-        ) || id.startsWith('@radix-ui/'),
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'styled-components', '@strapi/design-system'],
     },
   },
 });
