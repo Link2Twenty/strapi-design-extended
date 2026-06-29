@@ -1,5 +1,5 @@
 // Components
-import { Slider as SliderPrimative } from 'radix-ui';
+import * as SliderPrimative from '@radix-ui/react-slider';
 import { Box, Flex } from '@strapi/design-system';
 
 // Types

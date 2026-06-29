@@ -1,4 +1,4 @@
-import { Dialog as SheetPrimitive } from 'radix-ui';
+import * as SheetPrimitive from '@radix-ui/react-dialog';
 
 // Components
 import { Button, Flex, Grid, setOpacity, Typography } from '@strapi/design-system';
@@ -82,7 +82,7 @@ const contentShow = {
 		opacity: 1;
 		transform: translateX(0);
 	}
-}`,
+`,
   bottom: keyframes`
   from {
     opacity: 0;
@@ -124,7 +124,7 @@ const contentShow = {
 		opacity: 0;
 		transform: translateX(100%);
 	}
-}`,
+`,
     bottom: keyframes`
   from {
     opacity: 1;
