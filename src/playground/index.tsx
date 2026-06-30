@@ -14,7 +14,7 @@ import {
 import { Bold, Italic, StrikeThrough } from '@strapi/icons';
 
 import useDesignTokens from '../hooks/useDesignTokens';
-import { HoverCard, SegmentedControl, SheetDialog, Slider, Toolbar } from '../components';
+import { SegmentedControl, SheetDialog, Slider, Toolbar } from '../components';
 import { HoverElement } from '../components/HoverCard';
 
 function App() {
