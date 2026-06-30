@@ -47,13 +47,17 @@ const CodePreview = ({ code }: { code: string }) => {
 
 export const Default: Story = {
   render: (args) => {
-    const code = `import { Sheet } from 'strapi-design-extended';import { Button, Typography } from '@strapi/design-system';\n\n<Sheet.Root>\n  <Sheet.Trigger>Open</Sheet.Trigger>\n  <Sheet.Content>\n    <Sheet.Title>Sheet Title</Sheet.Title>\n    <Sheet.Body>\n      <Typography variant="pi">This is the content of the sheet.</Typography>\n    </Sheet.Body>\n    <Sheet.Footer>\n      <Sheet.Close asChild>\n        <Button variant="secondary">Close</Button>\n      </Sheet.Close>\n    </Sheet.Footer>\n  </Sheet.Content>\n</Sheet.Root>`;
+    const code = `import { Sheet } from 'strapi-design-extended';import { Button, Typography } from '@strapi/design-system';\n\n<Sheet.Root>\n  <Sheet.Trigger>Open</Sheet.Trigger>\n  <Sheet.Content hasTitle hasFooter>\n    <Sheet.Title>\n      <Typography variant="beta" tag="h2" padding={6}>\n        Sheet Title\n      </Typography>\n    </Sheet.Title>\n    <Sheet.Body>\n      <Typography variant="pi">This is the content of the sheet.</Typography>\n    </Sheet.Body>\n    <Sheet.Footer>\n      <Sheet.Close asChild>\n        <Button variant="secondary">Close</Button>\n      </Sheet.Close>\n    </Sheet.Footer>\n  </Sheet.Content>\n</Sheet.Root>`;
     return (
       <div>
         <Sheet.Root {...args}>
           <Sheet.Trigger>Open</Sheet.Trigger>
-          <Sheet.Content>
-            <Sheet.Title>Sheet Title</Sheet.Title>
+          <Sheet.Content hasTitle hasFooter>
+            <Sheet.Title>
+              <Typography variant="beta" tag="h2" padding={6}>
+                Sheet Title
+              </Typography>
+            </Sheet.Title>
             <Sheet.Body>
               <Typography variant="pi">This is the content of the sheet.</Typography>
             </Sheet.Body>
@@ -73,13 +77,17 @@ export const Default: Story = {
 export const Controlled: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
-    const code = `import { Sheet } from 'strapi-design-extended';\nimport { Button, Typography } from '@strapi/design-system';\n\nconst [open, setOpen] = useState(false);\n\n<>\n  <Button onClick={() => setOpen(true)}>Open</Button>\n  <Sheet.Root open={open} onOpenChange={setOpen}>\n    <Sheet.Content>\n      <Sheet.Title>Sheet Title</Sheet.Title>\n      <Sheet.Body>\n        <Typography variant="pi">This is the content of the sheet.</Typography>\n      </Sheet.Body>\n      <Sheet.Footer>\n        <Button variant="secondary" onClick={() => setOpen(false)}>\n          Close\n        </Button>\n      </Sheet.Footer>\n    </Sheet.Content>\n  </Sheet.Root>\n</>`;
+    const code = `import { Sheet } from 'strapi-design-extended';\nimport { Button, Typography } from '@strapi/design-system';\n\nconst [open, setOpen] = useState(false);\n\n<>\n  <Button onClick={() => setOpen(true)}>Open</Button>\n  <Sheet.Root open={open} onOpenChange={setOpen}>\n    <Sheet.Content hasTitle hasFooter>\n      <Sheet.Title>\n        <Typography variant="beta" tag="h2" padding={6}>\n          Sheet Title\n        </Typography>\n      </Sheet.Title>\n      <Sheet.Body>\n        <Typography variant="pi">This is the content of the sheet.</Typography>\n      </Sheet.Body>\n      <Sheet.Footer>\n        <Button variant="secondary" onClick={() => setOpen(false)}>\n          Close\n        </Button>\n      </Sheet.Footer>\n    </Sheet.Content>\n  </Sheet.Root>\n</>`;
     return (
       <div>
         <Button onClick={() => setOpen(true)}>Open</Button>
         <Sheet.Root {...args} open={open} onOpenChange={setOpen}>
-          <Sheet.Content>
-            <Sheet.Title>Sheet Title</Sheet.Title>
+          <Sheet.Content hasTitle hasFooter>
+            <Sheet.Title>
+              <Typography variant="beta" tag="h2" padding={6}>
+                Sheet Title
+              </Typography>
+            </Sheet.Title>
             <Sheet.Body>
               <Typography variant="pi">This is the content of the sheet.</Typography>
             </Sheet.Body>
