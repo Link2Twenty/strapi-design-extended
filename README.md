@@ -157,6 +157,82 @@ function MyApp() {
 }
 ```
 
+#### `HoverCard` / `HoverElement`
+
+A hover-card component based on Radix UI's `HoverCard` primitive, styled to match the Strapi design system.
+
+- **Composition (`HoverCard`)**: Exposes sub-components (`HoverCard.Root`, `HoverCard.Trigger`, `HoverCard.Content`) for modular markup layout.
+- **Props-based wrapper (`HoverElement`)**: A shortcut component that accepts a `trigger` node and child elements directly.
+- **Animations**: Directional transitions and fades that align with the active anchor side.
+- **Theme Integration**: Uses existing Strapi tokens including shadows (`filterShadow`), borders (`neutral150`), and backgrounds (`neutral0`).
+
+##### HoverCard Composable Usage
+
+```tsx
+import { HoverCard } from 'strapi-design-extended';
+import { Typography, Flex, Box, Avatar } from '@strapi/design-system';
+
+function MyApp() {
+  return (
+    <HoverCard.Root>
+      <HoverCard.Trigger asChild>
+        <a href="https://github.com/strapi" target="_blank" rel="noreferrer">
+          @strapi
+        </a>
+      </HoverCard.Trigger>
+      <HoverCard.Content sideOffset={5}>
+        <Flex gap={3} alignItems="flex-start" style={{ width: '300px' }}>
+          <Avatar.Item src="https://avatars.githubusercontent.com/u/5428414?v=4" alt="Strapi" fallback="S" />
+          <Box>
+            <Typography fontWeight="bold" tag="div" fontSize={2}>
+              Strapi
+            </Typography>
+            <Typography textColor="neutral600" tag="div" fontSize={1}>
+              @strapi
+            </Typography>
+            <Typography tag="p" textColor="neutral800" fontSize={2} style={{ marginTop: '8px' }}>
+              The leading open-source headless CMS.
+            </Typography>
+          </Box>
+        </Flex>
+      </HoverCard.Content>
+    </HoverCard.Root>
+  );
+}
+```
+
+##### HoverElement Props Usage
+
+```tsx
+import { HoverElement } from 'strapi-design-extended';
+import { Typography, Flex, Box, Avatar } from '@strapi/design-system';
+
+function MyApp() {
+  return (
+    <HoverElement
+      sideOffset={5}
+      trigger={
+        <a href="https://github.com/strapi" target="_blank" rel="noreferrer">
+          @strapi
+        </a>
+      }
+    >
+      <Flex gap={3} alignItems="flex-start" style={{ width: '280px' }}>
+        <Avatar.Item src="https://avatars.githubusercontent.com/u/5428414?v=4" alt="Strapi" fallback="S" />
+        <Box>
+          <Typography fontWeight="bold" tag="div" fontSize={2}>
+            Strapi
+          </Typography>
+          <Typography tag="p" textColor="neutral800" fontSize={2}>
+            The leading open-source headless CMS.
+          </Typography>
+        </Box>
+      </Flex>
+    </HoverElement>
+  );
+}
+```
+
 #### `Toolbar`
 
 A container toolbar component based on Radix UI's `Toolbar` primitive, visually matching Strapi design system guidelines.

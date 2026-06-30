@@ -1,11 +1,21 @@
 import { useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
-import { DesignSystemProvider, lightTheme, darkTheme, Typography, Button, Flex } from '@strapi/design-system';
+import {
+  DesignSystemProvider,
+  lightTheme,
+  darkTheme,
+  Typography,
+  Button,
+  Flex,
+  Avatar,
+  Box,
+} from '@strapi/design-system';
 import { Bold, Italic, StrikeThrough } from '@strapi/icons';
 
 import useDesignTokens from '../hooks/useDesignTokens';
-import { SegmentedControl, SheetDialog, Slider, Toolbar } from '../components';
+import { HoverCard, SegmentedControl, SheetDialog, Slider, Toolbar } from '../components';
+import { HoverElement } from '../components/HoverCard';
 
 function App() {
   const [view, setView] = useState<'top' | 'right' | 'bottom' | 'left'>('right');
@@ -76,6 +86,57 @@ function App() {
         <Typography variant="epsilon" textColor="neutral600">
           Selected value: {value[0]}
         </Typography>
+      </div>
+
+      <div style={{ display: 'flex', gap: '1rem', margin: '1rem', alignItems: 'center' }}>
+        <Typography variant="epsilon" textColor="neutral800" fontWeight="bold">
+          HoverCard Demo:
+        </Typography>
+        <HoverElement
+          trigger={
+            <Typography tag="a" href="https://github.com/strapi" target="_blank" rel="noreferrer">
+              @strapi (Hover me!)
+            </Typography>
+          }
+        >
+          <Flex gap={3} alignItems="flex-start" style={{ width: '280px' }}>
+            <Avatar.Item
+              style={{ flexShrink: 0 }}
+              src="https://avatars.githubusercontent.com/u/5428414?v=4"
+              alt="Strapi"
+              fallback="S"
+            />
+            <Box>
+              <Typography fontWeight="bold" tag="div" fontSize={2}>
+                Strapi
+              </Typography>
+              <Typography textColor="neutral600" tag="div" fontSize={1} style={{ marginTop: '2px' }}>
+                @strapi
+              </Typography>
+              <Typography tag="p" textColor="neutral800" fontSize={2} style={{ marginTop: '8px', lineHeight: '1.4' }}>
+                The leading open-source headless CMS. 100% JavaScript / TypeScript, extensible, and fully customizable.
+              </Typography>
+              <Flex gap={4} style={{ marginTop: '12px' }}>
+                <Flex gap={1}>
+                  <Typography fontWeight="bold" fontSize={1}>
+                    0
+                  </Typography>
+                  <Typography textColor="neutral600" fontSize={1}>
+                    Following
+                  </Typography>
+                </Flex>
+                <Flex gap={1}>
+                  <Typography fontWeight="bold" fontSize={1}>
+                    10.5k
+                  </Typography>
+                  <Typography textColor="neutral600" fontSize={1}>
+                    Followers
+                  </Typography>
+                </Flex>
+              </Flex>
+            </Box>
+          </Flex>
+        </HoverElement>
       </div>
 
       <SheetDialog
