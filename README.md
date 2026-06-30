@@ -113,6 +113,7 @@ function MyApp() {
       <Button onClick={() => setOpen(true)}>Open Dialog</Button>
       <SheetDialog
         open={open}
+        showClose={true}
         onClose={() => setOpen(false)}
         title="Sheet Title"
         side="right"

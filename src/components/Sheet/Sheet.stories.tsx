@@ -99,12 +99,13 @@ export const Controlled: Story = {
 export const Simplified: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
-    const code = `import { SheetDialog } from 'strapi-design-extended';\nimport { Button, Typography } from '@strapi/design-system';\n\nconst [open, setOpen] = useState(false);\n\n<>\n  <Button onClick={() => setOpen(true)}>Open</Button>\n  <SheetDialog\n    open={open}\n    onClose={() => setOpen(false)}\n    title="Sheet Title"\n    actionButtons={<Button variant="secondary" onClick={() => setOpen(false)}>Close</Button>}\n  >\n    <Typography variant="pi">This is the content of the sheet.</Typography>\n  </SheetDialog>\n</>`;
+    const code = `import { SheetDialog } from 'strapi-design-extended';\nimport { Button, Typography } from '@strapi/design-system';\n\nconst [open, setOpen] = useState(false);\n\n<>\n  <Button onClick={() => setOpen(true)}>Open</Button>\n  <SheetDialog\n    open={open}\n    showClose\n    onClose={() => setOpen(false)}\n    title="Sheet Title"\n    actionButtons={<Button variant="secondary" onClick={() => setOpen(false)}>Close</Button>}\n  >\n    <Typography variant="pi">This is the content of the sheet.</Typography>\n  </SheetDialog>\n</>`;
     return (
       <div>
         <Button onClick={() => setOpen(true)}>Open</Button>
         <SheetDialog
           open={open}
+          showClose
           onClose={() => setOpen(false)}
           title="Sheet Title"
           {...args}

@@ -79,6 +79,7 @@ function App() {
       </div>
 
       <SheetDialog
+        showClose
         open={panelOpen}
         onClose={() => setPanelOpen(false)}
         title="Confirmation"

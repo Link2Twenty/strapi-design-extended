@@ -1,35 +1,11 @@
 import { Dialog as SheetPrimitive } from 'radix-ui';
 
 // Components
-import { Button, Flex, Grid, setOpacity, Typography } from '@strapi/design-system';
+import { Flex, Grid, IconButton, setOpacity, Typography } from '@strapi/design-system';
+import { Cross } from '@strapi/icons';
 
 // Styled
 import styled, { keyframes } from 'styled-components';
-
-// Types
-import type { TypographyComponent } from '@strapi/design-system';
-
-const Root = (props: React.ComponentProps<typeof SheetPrimitive.Root>) => {
-  return <SheetPrimitive.Root {...props} />;
-};
-
-const Trigger = (
-  props: Omit<React.ComponentProps<typeof SheetPrimitive.Trigger>, 'asChild'> & React.ComponentProps<typeof Button>,
-) => {
-  return (
-    <SheetPrimitive.Trigger {...props} asChild>
-      <Button>{props.children}</Button>
-    </SheetPrimitive.Trigger>
-  );
-};
-
-const Close = (props: React.ComponentProps<typeof SheetPrimitive.Close>) => {
-  return <SheetPrimitive.Close {...props} />;
-};
-
-const Portal = (props: React.ComponentProps<typeof SheetPrimitive.Portal>) => {
-  return <SheetPrimitive.Portal {...props} />;
-};
 
 const overlayFadeIn = keyframes`
     from { opacity: 0; }
@@ -203,7 +179,7 @@ const Content = ({
   hasFooter?: boolean;
 } & React.ComponentProps<typeof Flex>) => {
   return (
-    <Portal>
+    <SheetPrimitive.Portal>
       <Overlay />
       <SheetPrimitive.Content
         data-side={side}
@@ -232,7 +208,7 @@ const Content = ({
           {children}
         </StyledContent>
       </SheetPrimitive.Content>
-    </Portal>
+    </SheetPrimitive.Portal>
   );
 };
 
@@ -245,6 +221,7 @@ const Body = (props: React.ComponentProps<typeof Grid.Item>) => {
       height="100%"
       margin={0}
       overflow="auto"
+      tabIndex={-1}
       style={{ display: 'block' }}
     />
   );
@@ -258,8 +235,8 @@ const Footer = (props: React.ComponentProps<typeof Grid.Item>) => {
   return <StyledFooter {...props} padding={6} width="100%" />;
 };
 
-const StyledTitle = styled<TypographyComponent<'h2'>>(Typography)`
-  text-align: center;
+const StyledTitle = styled(SheetPrimitive.Title)`
+  width: 100%;
   border-bottom: solid 1px ${(props) => props.theme.colors.neutral150};
 `;
 
@@ -268,14 +245,19 @@ const Title = (
 ) => {
   return (
     <Grid.Item width="100%">
-      <SheetPrimitive.Title asChild {...props}>
-        <StyledTitle variant="beta" textColor="neutral800" tag="h2" padding={6} width="100%">
-          {props.children}
-        </StyledTitle>
-      </SheetPrimitive.Title>
+      <StyledTitle {...props} asChild>
+        <div>{props.children}</div>
+      </StyledTitle>
     </Grid.Item>
   );
 };
+
+const StyledClose = styled(SheetPrimitive.Close)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: ${(props) => props.theme.spaces[2]};
+`;
 
 type SheetDialogProps = {
   /**
@@ -307,6 +289,10 @@ type SheetDialogProps = {
    */
   actionButtons?: React.ReactNode;
   /**
+   * Whether to show the close button in the sheet dialog, this appears in the title bar. If not provided, the close button will not be displayed.
+   */
+  showClose?: boolean;
+  /**
    * The side of the sheet dialog. If not provided, the default side will be used.
    */
   side?: 'top' | 'right' | 'bottom' | 'left';
@@ -320,17 +306,43 @@ export const SheetDialog = ({
   height,
   onClose,
   actionButtons,
+  showClose,
   side,
 }: SheetDialogProps) => {
   return (
-    <Root open={open} onOpenChange={(state) => !state && onClose?.()}>
+    <SheetPrimitive.Root open={open} onOpenChange={(state) => !state && onClose?.()}>
       <Content side={side} width={width} height={height} hasTitle={!!title} hasFooter={!!actionButtons}>
-        {title && <Title>{title}</Title>}
+        {title && (
+          <Title>
+            {typeof title === 'string' ? (
+              <Typography variant="beta" textColor="neutral800" tag="h2" padding={6} width="100%" textAlign="center">
+                {title}
+              </Typography>
+            ) : (
+              title
+            )}
+            {showClose && (
+              <StyledClose asChild>
+                <IconButton label="">
+                  <Cross />
+                </IconButton>
+              </StyledClose>
+            )}
+          </Title>
+        )}
         <Body>{children}</Body>
         {actionButtons && <Footer>{actionButtons}</Footer>}
       </Content>
-    </Root>
+    </SheetPrimitive.Root>
   );
 };
 
-export default { Root, Trigger, Close, Content, Body, Footer, Title };
+export default {
+  Root: SheetPrimitive.Root,
+  Trigger: SheetPrimitive.Trigger,
+  Close: SheetPrimitive.Close,
+  Content,
+  Body,
+  Footer,
+  Title,
+};
