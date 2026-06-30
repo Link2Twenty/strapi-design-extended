@@ -263,7 +263,7 @@ type SheetDialogProps = {
   /**
    * The title of the sheet dialog. If not provided, no title will be displayed.
    */
-  title?: string;
+  title?: React.ReactNode | string;
   /**
    * Whether the sheet dialog is open or not. If not provided, the sheet dialog will be uncontrolled.
    */
